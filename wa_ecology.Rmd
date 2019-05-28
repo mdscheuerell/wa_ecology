@@ -13,13 +13,13 @@ output:
 options(htmltools.dir.version = FALSE, servr.daemon = TRUE)
 ```
 
-class: center, middle, inverse
+class: center, middle
 
-# QUANTITATIVE APPROACHES FOR IMPROVED MANAGEMENT AND CONSERVATION OF AQUATIC RESOURCES
+# QUANTITATIVE APPROACHES FOR IMPROVED UNDESTANDING AND MANAGEMENT OF AQUATIC RESOURCES
 ## Mark Scheuerell
-_Northwest Fisheries Science Center<br>National Marine Fisheries Service<br>_
+_USGS WACFWRU<br>UW SAFS<br>_
 
-.futnote[`r icon::fa("envelope")` mark.scheuerell@noaa.gov]
+.futnote[`r icon::fa("envelope")` scheuerl@uw.edu]
 
 .citation[`r icon::fa("twitter")` @mark_scheuerell]
 
@@ -36,32 +36,6 @@ _Northwest Fisheries Science Center<br>National Marine Fisheries Service<br>_
 ### .blue-text[ Casey Ruff, Eric Beamer ] (Skagit River Coop)
 
 ### .blue-text[ Joe Anderson ] (WDFW)
-
----
-
-# Acknowledgments
-
-## .blue-text[Faculty] (UW, Wash St, Oregon St, U Alaska)
-
-## .blue-text[Post-docs]
-
-## .blue-text[Grad students]
-
-## .blue-text[_Many_ others]
-
----
-
-class: frimg
-
-background-image: url(figs/wisconsin.jpg)
-background-size: 75%
-
----
-
-class: frimg
-
-background-image: url(figs/minnesota.jpg)
-background-size: 70%
 
 ---
 
@@ -139,21 +113,6 @@ class: middle, inverse
 .purple-text[
 ## cultural (spiritual benefits)
 ]
-
----
-
-class: middle
-
-> # We love to forecast, but we're not very good at it.
-
-.right[
-## - Nate Silver .wh-text["-----"]
-]
----
-
-class: inverse, middle, center
-
-# The signal and the noise
 
 ---
 
@@ -730,26 +689,6 @@ class: inverse, center, middle
 
 ---
 
-class: middle
-
-.blue-text[
-# Evolutionarily Significant Unit (ESU)
-]
-
-## A group of animals considered distinct for the purpose of conservation
-
-### .right[Waples (1991)]
-
----
-
-class: middle, center
-
-
-# .red-text[More than 50%] of ESUs are listed under the Endangered Species Act
-
-
----
-
 class: center
 
 ### .wh-text[-]
@@ -1059,188 +998,7 @@ background-size: 55%
 
 class: inverse, center, middle
 
-# RECOVERY OPTIONS FOR SALMON?
-
----
-
-class: middle, center
-
-# .orange-text[Life-cycle models] are used extensively to predict effects of recovery actions
-
----
-
-# Common approach
-
-## .right.blue-text[Pre-process raw data based upon chosen model]
-
----
-
-# .gray-text[~~Common~~] Approach
-
-## .right.gray-text[~~Pre-process raw data based upon chosen model~~]
-
-## .right.blue-text[Choose model based upon raw data]
-
-### .right[Maunder & Punt (2013) _Fish Res_]
-
----
-
-class: inverse, center, middle
-
-# INTEGRATED POPULATION MODELS
-
----
-
-class: black-back
-background-image: url(figs/skagit.png)
-background-position: 50% 50%
-background-size: cover
-
-# Skagit River
-
----
-
-# Characterize uncertainty between steelhead
-
-## .blue-text[1) spawners and offspring]
-
-## .green-text[2) productivity and environmental conditions]
-
----
-
-# Skagit River steelhead
-
-.right.blue-text[
-## Escapement, harvest & age data from 1978-2018
-]
-
-.right.green-text[
-## Effects of streamflows & hatchery releases
-]
-
----
-
-# Integrated population model
-
-## .blue-text.under[State model]
-
-## .blue-text[Offspring] = f(.blue-text[Spawners], .green-text[Streamflows], .orange-text[Hatchery fish])
-
----
-
-# Integrated population model
-
-## .blue-text.under[State model]
-
-## .blue-text[Offspring] = f(.blue-text[Spawners], .green-text[Streamflows], .orange-text[Hatchery fish])
-
-## .purple-text.under[Observation models]
-
-## .purple-text[Spawners] = g(.blue-text[Spawners], .gray-text[Harvest])
-
-## .purple-text[Ages] = h(.blue-text[Offspring])
-
----
-
-class: frimg, center
-background-image: url(figs/flow_effects.png)
-background-position: 50% 70%
-background-size: 80%
-
-# Flow effects on productivity
-
-.citationT.gray-text[Scheuerell et al. (*in revision*)]
-
----
-
-class: frimg, center
-background-image: url(figs/H_effects.png)
-background-position: 50% 45%
-background-size: 85%
-
-# Hatchery effect on productivity
-
-.citationT.gray-text[Scheuerell et al. (*in revision*)]
-
----
-
-class: frimg, center
-background-image: url(figs/BH_form.png)
-background-position: 50% 75%
-background-size: 80%
-
-# Theoretical parent-offspring relationship
-
----
-
-class: frimg, center
-background-image: url(figs/SR_relationship.png)
-background-position: 50% 65%
-background-size: 85%
-
-# Real parent-offspring relationship
-
-.citationT.gray-text[Scheuerell et al. (*in revision*)]
-
----
-
-class: frimg, center
-background-image: url(figs/ref_points0.png)
-background-position: 50% 55%
-background-size: 75%
-
-# Optimal escapement for targeting MSY
-
-.citationT.gray-text[Scheuerell et al. (*in revision*)]
-
----
-
-class: frimg, center
-background-image: url(figs/ref_points.png)
-background-position: 50% 55%
-background-size: 75%
-
-# Co-management is conservation minded
-
-.citationT.gray-text[Scheuerell et al. (*in revision*)]
-
-
-
-
----
-
-# In summary
-
-.blue-text[
-## Much of our data is "noisy"
-
-## Separating signals from the noise can be challenging
-
-## Hierarchical models offer great promise,
-
-## .right[ but they are _not_ a panacea ]
-]
-
----
-
-class: inverse, center, middle
-
 # Future directions
-
----
-
-# Freshwater food-webs
-
-.blue-text.right[
-## How do ecosystem processses vary by lat & lon? 
-]
-
----
-
-class: black-back
-background-image: url(figs/pnw.jpg)
-background-position: 50% 50%
-background-size: 75%
 
 ---
 
@@ -1249,15 +1007,6 @@ background-size: 75%
 .blue-text.right[
 ## How do species interactions change over time?
 ]
-
----
-
-class: frimg
-background-image: url(figs/san_nic.png)
-background-position: 50% 70%
-background-size: 90%
-
-# Kelp forest food webs
 
 ---
 
@@ -1274,7 +1023,7 @@ background-size: 90%
 .blue-text[
 ## I'm dedicated to open, reproducible research
 
-## As a public servant my work should be accessible
+## As public servants our work should be accessible
 ]
 
 # Development
