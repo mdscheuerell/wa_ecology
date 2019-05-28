@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>wa_ecology.utf8.md</title>
+    <meta charset="utf-8">
+    <link href="libs/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="my-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: center, middle
+
+# QUANTITATIVE APPROACHES FOR IMPROVED UNDESTANDING AND MANAGEMENT OF AQUATIC RESOURCES
+## Mark Scheuerell
+_USGS WACFWRU&lt;br&gt;UW SAFS&lt;br&gt;_
+
+.futnote[<i class="fa  fa-envelope "></i> scheuerl@uw.edu]
+
+.citation[<i class="fa  fa-twitter "></i> @mark_scheuerell]
+
+---
+
+# Acknowledgments
+
+### .blue-text[ Elizabeth Holmes, Jim Thorson, Eric Ward ] (NMFS)
+
+### .blue-text[ Eric Buhle, Kevin See ] (Biomark)
+
+### .blue-text[ Brice Semmens ] (Scripps)
+
+### .blue-text[ Casey Ruff, Eric Beamer ] (Skagit River Coop)
+
+### .blue-text[ Joe Anderson ] (WDFW)
+
+---
+
+class: frimgB, center
+
+# I was trained as a field ecologist
+
+&lt;img src="figs/Mark_at_Rainbow_Cr.jpg", alt="", height=440, width=440&gt;
+
+---
+
+# My early research was largely empirical
+
+.green-text[
+## Nutrient limitation of lake productivity
+]
+.blue-text.center[
+## Vertical migration in juvenile sockeye salmon
+]
+.orange-text.right[
+## Trophic interactions among stream fishes
+]
+
+---
+
+class: middle, inverse
+# How do natural &amp; human forces affect
+
+# .center[ the structure of aquatic ecosystems &amp; ]
+
+# .right[ the services we derive from them? ]
+
+---
+
+# The forces may be
+
+.green-text[
+## biological (food web interactions, harvest)
+]
+
+--
+
+.blue-text[
+## physical (climate, habitat modification)
+]
+
+--
+
+.orange-text[
+## chemical (ocean acidification, contaminants)
+]
+
+---
+
+# The services can be
+
+.green-text[
+## provisioning (food production)
+]
+
+--
+
+.blue-text[
+## supporting (nutrient cycling)
+]
+
+--
+
+.orange-text[
+## regulating (flood control)
+]
+
+--
+
+.purple-text[
+## cultural (spiritual benefits)
+]
+
+---
+
+# Current research foci
+
+.green-text[
+## Models for spatio-temporal data
+]
+.blue-text.center[
+## Integrated population models
+]
+.orange-text.right[
+## Ecological portfolios
+]
+
+---
+
+class: center
+
+# *Methods in Ecology and Evolution*
+
+&lt;img src="wa_ecology_files/figure-html/timeseries-1.png" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: center, middle, inverse
+
+# Lots of focus on *hierarchical models*
+
+---
+
+class: frimg, center
+background-image: url(figs/alone.jpg)
+background-size: cover
+
+---
+
+# Hi·er·ar·chi·cal
+
+### *adjective*
+
+1. ## Arranged in an order
+
+---
+
+class: center, middle, inverse
+
+# A hierarchical model is simply
+# a model within a model
+
+---
+
+# Hierarchical models also masquerade as
+
+.green-text[
+## Nested data models
+]
+.blue-text[
+## Mixed models
+]
+.orange-text[
+## Random-effects models
+]
+.purple-text[
+## State-space models
+]
+
+---
+
+class: center, middle, inverse
+
+# A state-space model has 2 parts
+
+---
+
+# Part 1: State model
+
+## Describes the .blue-text[true state of nature] over time or space
+
+&lt;img src="wa_ecology_files/figure-html/state_diag-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# States of nature might be
+
+.green-text[
+## Animal location
+]
+.blue-text[
+## Species density
+]
+.orange-text[
+## Age structure
+]
+.purple-text[
+## Reproductive status
+]
+
+---
+
+class: frimg, center, bottom, black-back
+background-image: url(figs/venice_carnival.jpg)
+background-size: 100%
+
+## .white-text[Revealing the true state requires observations]
+### .black-text[-]
+
+---
+
+class: center, middle, inverse
+
+# Observing nature can be easy
+
+---
+
+class: frimg, bottom, right
+background-image: url(figs/sockeye.jpg)
+background-size: cover
+
+# .white-text[How many sockeye are there?]
+
+---
+
+class: center, middle, inverse
+
+# Observing nature can also be hard
+
+---
+
+class: frimg, bottom, right
+background-image: url(figs/sockeye.jpg)
+background-size: cover
+
+# .white-text[How many mayflies are there?]
+
+---
+
+# Part 2: Observation model
+
+## .purple-text[Data] = .blue-text[Truth] &amp;#177; .red-text[Errors]
+
+---
+
+# Part 2: Observation model
+
+## .purple-text[Data] = .blue-text[Truth] &amp;#177; .red-text[Errors]
+
+&lt;img src="wa_ecology_files/figure-html/obs_diag-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# OK, but why bother?
+
+---
+
+# Advantages of hierarchical models
+
+## 1. Can combine many different .purple-text[data types]
+
+.center.purple-text[
+### Changes in observers or sensors
+
+### Varying survey locations &amp; effort
+
+### Direct &amp; remote sampling  
+]
+
+---
+
+# Advantages of hierarchical models
+
+## 2. .gray-text[Missing data] are easily accommodated
+
+&lt;img src="wa_ecology_files/figure-html/obs_NA-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: frimg
+background-image: url(figs/Jonsen2016.png)
+background-position: 50% 60%
+background-size: 70%
+
+# Advantages of hierarchical models
+
+## 3. Improved accuracy &amp; precision
+
+---
+
+class: frimg
+background-image: url(figs/robin.jpg)
+background-position: 50% 80%
+background-size: 40%
+
+# Advantages of hierarchical models
+
+## 4. .gray-text[Data-poor] benefit from .green-text[data-rich]
+
+---
+
+# Advantages of hierarchical models
+
+## 5. Rather flexible
+
+.center.blue-text[
+### This simple model can be used for 5+ unique applications
+]
+
+`$$\LARGE \mathbf{x}_t = \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t \\
+  \LARGE \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{v}_t$$`
+
+---
+
+class: inverse, center, middle
+
+# How do I actually do this?
+
+---
+
+# Many software options
+
+## .green-text[Canned **R** packages] (dlm, vars, MARSS&lt;sup&gt;*&lt;/sup&gt;)
+
+## .blue-text[Code-your-own] (JAGS, Stan, greta)
+
+.footnoteSm.gray-text[
+&lt;sup&gt;\*&lt;/sup&gt;Holmes, Ward, Scheuerell (2018) _Analysis of multivariate time-series using the MARSS package_
+]
+
+---
+
+class: frimg, inverse-black
+background-image: url(figs/snake_oil.jpg)
+background-size: cover
+
+---
+
+class: center, middle, inverse
+
+# Emergence of high-dimension data
+
+---
+
+class: frimg, black-back
+
+background-image: url(figs/remote_sensing.jpg)
+background-position: 50% 50%
+background-size: 100%
+
+# .white-text[Remote sensing]
+
+---
+
+class: frimg, center
+
+background-image: url(figs/dna.png)
+background-position: 50% 50%
+background-size: 100%
+
+# Genetics
+
+---
+
+class: frimg, right
+
+background-image: url(figs/bird_count.jpg)
+background-position: 65% 50%
+background-size: 80%
+
+# Citizen Science
+
+---
+
+class: center, middle, inverse
+
+# How can we make sense of all of this?
+
+
+---
+
+class: frimg, inverse, right
+background-image: url(figs/shake.jpg)
+background-position: 50% 50%
+background-size: 100%
+
+.white-text[
+# Classification
+
+&lt;br&gt;&lt;br&gt;
+
+## .right[ History ]
+
+## .left[ Tragedy ]
+
+&lt;br&gt;&lt;br&gt;
+
+## .center[ Comedy ]  
+]
+
+---
+
+class: center
+
+# Ordination
+
+&lt;img src="wa_ecology_files/figure-html/pca_ex-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="wa_ecology_files/figure-html/plot_many_ts-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: center
+
+# Just some combination of these
+
+&lt;img src="wa_ecology_files/figure-html/plot_dfa_trends-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Dynamic Factor Analysis
+
+## .blue-text.under[State model]
+
+## .blue-text[Trends]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; = .blue-text[Trends]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;-1&lt;/sub&gt; + .gray-text[errors]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; (A few)
+
+## .purple-text.under[Observation model]
+
+## .purple-text[Data]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; = .orange-text[Loadings] × .blue-text[Trends]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; + .red-text[errors]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; (Many)
+
+
+---
+
+# Salmon returns &amp; productivity
+
+.blue-text.right[
+## Trying to understand when &amp; where stocks covary
+]
+
+.gray-text.right[
+### Stachura et al. (2014) _CJFAS_
+
+### Goertler et al. (2016) _PLoS One_
+
+### Ohlberger et al. (2016) _Ecosphere_
+
+### Jorgensen et al. (2016) _Ecology &amp; Evolution_
+]
+
+---
+
+# Abundance &amp; catches of groundfish
+
+.right.blue-text[
+## How do spatial patterns change over time?
+]
+
+.gray-text.right[
+### Thorson et al. (2015) *Meth* *Ecol* &amp; *Evol*
+
+### Thorson et al. (2016) *Global Ecol &amp; Biogeogr*
+
+### Thorson et al. (2018) *Proc Royal Soc B*
+]
+
+---
+
+class: inverse, center, middle
+
+# Conservation of Pacific salmon
+
+---
+
+class: center
+
+### .wh-text[-]
+
+.pull-left.middle[
+.green-text[
+# .large[ Hydropower ]
+]
+.orange-text[
+# .large[ Harvest ]
+]
+]
+.pull-right[
+.purple-text[
+# .large[ Habitat ]
+]
+.blue-text[
+# .large[ Hatcheries ]
+]
+]
+
+# .large[ The 4 H's ]
+
+---
+
+class: inverse, center, middle
+
+# RECOVERY OPTIONS?
+
+---
+
+class: frimg
+background-image: url(figs/suppl_scheme.png)
+background-position: 50% 60%
+background-size: 90%
+
+# One strategy is .blue-text[hatchery supplementation]
+
+---
+
+# Evaluating conservation interventions
+
+.blue-text[
+## Has 30+ years of hatchery supplementation boosted the production of wild Chinook in the Snake R?
+]
+
+---
+
+class: frimg
+background-image: url(figs/suppl_esu.png)
+background-size: 95%
+
+---
+
+class: frimg
+background-image: url(figs/density_ts.png)
+background-position: 50% 30%
+background-size: 77%
+
+# Density of spawners over time
+
+---
+
+class: frimg
+background-image: url(figs/suppl_ts.png)
+background-position: 50% 30%
+background-size: 77%
+
+# Ad hoc design
+
+---
+
+# Complications for analysis
+
+.green-text[
+## No randomized design
+]
+.blue-text[
+## Different start/stop &amp; duration
+]
+.orange-text[
+## Changing variance &amp; correlated errors
+]
+.purple-text[
+## Multiple agencies &amp; tribes
+]
+
+---
+
+class: inverse, center, middle
+
+# How should we analyze these data?
+
+---
+
+class: frimgB, black-back, center
+background-image: url(figs/budweiser.jpg)
+background-size: contain
+
+
+---
+
+# How much did .orange-text[advertising] increase sales?
+
+&lt;img src="wa_ecology_files/figure-html/sale_ts_3-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# A model from advertising
+
+## .blue-text.under[State model]
+
+## .blue-text[Sales]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; = .blue-text[Sales]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;-1&lt;/sub&gt; + .orange-text[Advertising]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; + .gray-text[error]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt;
+
+---
+
+# A model from advertising
+
+## .blue-text.under[State model]
+
+## .blue-text[Sales]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; = .blue-text[Sales]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;-1&lt;/sub&gt; + .orange-text[Advertising]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; + .gray-text[error]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt;
+
+## .purple-text.under[Observation model]
+
+## .purple-text[Data]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; = .blue-text[Sales]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; + .red-text[error]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt;
+
+---
+
+# A model for supplementation
+
+## .blue-text.under[State model]
+
+## .blue-text[Density]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; = .blue-text[Density]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;-1&lt;/sub&gt; + .orange-text[Supplementation]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; + .gray-text[error]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt;
+
+## .purple-text.under[Observation model]
+
+## .purple-text[Data]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; = .blue-text[Density]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt; + .red-text[error]&lt;sub&gt;&lt;i&gt;t&lt;/i&gt;&lt;/sub&gt;
+
+---
+
+class: frimg
+background-image: url(figs/suppl_esu.png)
+background-size: 95%
+
+---
+
+# Two modifications to the model
+
+## 1) Supplementation effect is .orange-text[hierarchical across popns]
+
+---
+
+# Two modifications to the model
+
+## 1) Supplementation effect is .orange-text[hierarchical across popns]
+
+## 2) Errors include a .red-text[common year effect]
+
+---
+
+class: frimg
+background-image: url(figs/suppl_eff.png)
+background-position: 50% 37%
+background-size: 130%
+
+# Supplementation effect is rather subtle
+
+.blue-text.center[
+### Mean increase of only 3.3% over ~25 years
+]
+
+.citationT.gray-text[Scheuerell et al. (2015) *Ecol* &amp; *Evol*]
+
+---
+
+class: frimg
+background-image: url(figs/suppl_eff.png)
+background-position: 50% 37%
+background-size: 130%
+
+# Supplementation effect is rather subtle
+
+.blue-text.center[
+### Probability of positive effect is ~70%
+]
+
+.citationT.gray-text[Scheuerell et al. (2015) *Ecol* &amp; *Evol*]
+
+---
+
+class: frimg
+background-image: url(figs/yr_effects.png)
+background-position: 50% 55%
+background-size: 85%
+
+## Common year effects overshadow .orange-text[intervention]
+
+.citationT.gray-text[Scheuerell et al. (2015) *Ecol* &amp; *Evol*]
+
+
+---
+
+class: inverse, center, middle
+
+# What about .under[unplanned] experiments?
+
+
+---
+
+class: frimg
+background-image: url(figs/dwh.jpg)
+background-position: 50% 50%
+background-size: 100%
+
+# .white-text[ Deepwater Horizon oil spill ]
+
+.citation.white-text[ 20 April 2010 ]
+
+---
+
+# How did abundance change post-spill?
+
+.blue-text.right[
+## Quarterly survey data from 1982-present
+
+## 50+ species of fish &amp; inverts
+]
+
+---
+
+class: black-back, middle
+background-image: url(figs/seamap_zones.jpeg)
+background-position: 50% 50%
+background-size: 95%
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+# &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; Spatial management zones
+
+---
+
+class: frimg, middle
+background-image: url(figs/dwh_effect.png)
+background-position: 80% 50%
+background-size: 55%
+
+.footnoteSm.gray-text[Scheuerell et al. _in prep_]
+
+---
+
+class: frimg, middle
+background-image: url(figs/dwh_effect.png)
+background-position: 80% 50%
+background-size: 55%
+
+## .red-text[ Oil spill (-) ]
+
+## .blue-text[ No Fishing (+) ]
+
+.footnoteSm.gray-text[Scheuerell et al. _in prep_]
+
+---
+
+class: frimg, middle
+background-image: url(figs/dwh_effect.png)
+background-position: 80% 50%
+background-size: 55%
+
+## .orange-text[ Only 3 yrs later ]
+
+.footnoteSm.gray-text[Scheuerell et al. _in prep_]
+
+---
+
+class: inverse, center, middle
+
+# Future directions
+
+---
+
+# Marine &amp; freshwater food-webs
+
+.blue-text.right[
+## How do species interactions change over time?
+]
+
+---
+
+# Ecological portfolios
+
+.blue-text.right[
+## Maximize info from monitoring while minimizing cost
+]
+
+---
+
+# Open science
+
+.blue-text[
+## I'm dedicated to open, reproducible research
+
+## As public servants our work should be accessible
+]
+
+# Development
+
+## .blue-text[https://github.com/mdscheuerell/]
+
+---
+
+# Slide deck
+
+.blue-text[https://faculty.washington.edu/scheuerl/AUL_SAFS.pdf]
+
+# Image sources
+
+.blue-text.small[
+MN map: *Chandler O’Leary (2013)*  
+WI map: *Cat's Meow Village*  
+LIDAR: *NOAA*  
+DNA: *fizzgig (2016)*  
+Robin Hood: *John Escott*  
+M Caulkin: *20th Century Fox*  
+Carnival: *Frank Kovalchek (2010)*   
+Snake oil: *The Register*  
+Shakespeare's plays: *Sir John Gilbert (1849)*  
+Budweiser: *Anheiser-Busch*  
+DWH: *US Coast Guard*  
+PNW: *Raven Maps* 
+]
+
+---
+
+class: black-back
+    </textarea>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
