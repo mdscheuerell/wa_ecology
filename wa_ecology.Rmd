@@ -15,13 +15,13 @@ options(htmltools.dir.version = FALSE, servr.daemon = TRUE)
 
 class: center, middle
 
-# QUANTITATIVE APPROACHES FOR IMPROVED UNDESTANDING AND MANAGEMENT OF AQUATIC RESOURCES
+# QUANTITATIVE APPROACHES FOR IMPROVED UNDERSTANDING AND MANAGEMENT OF AQUATIC RESOURCES
 ## Mark Scheuerell
 _USGS WACFWRU<br>UW SAFS<br>_
 
-.futnote[`r icon::fa("envelope")` scheuerl@uw.edu]
+.futnote.purple-text[`r icon::fa("envelope")` scheuerl@uw.edu]
 
-.citation[`r icon::fa("twitter")` @mark_scheuerell]
+.citation.blue-text[`r icon::fa("twitter")` @mark_scheuerell]
 
 ---
 
@@ -76,13 +76,9 @@ class: middle, inverse
 ## biological (food web interactions, harvest)
 ]
 
---
-
 .blue-text[
 ## physical (climate, habitat modification)
 ]
-
---
 
 .orange-text[
 ## chemical (ocean acidification, contaminants)
@@ -96,19 +92,13 @@ class: middle, inverse
 ## provisioning (food production)
 ]
 
---
-
 .blue-text[
 ## supporting (nutrient cycling)
 ]
 
---
-
 .orange-text[
 ## regulating (flood control)
 ]
-
---
 
 .purple-text[
 ## cultural (spiritual benefits)
@@ -127,49 +117,6 @@ class: middle, inverse
 .orange-text.right[
 ## Ecological portfolios
 ]
-
----
-
-class: center
-
-# *Methods in Ecology and Evolution*
-
-```{r timeseries, dpi=300, fig.height=4, fig.width=6, out.height="80%", out.width="80%", fig.align='center', echo=FALSE}
-mee <- data.frame(yr=seq(2010,2017),
-                  issues=c(4,6,6,12,12,12,12,12),
-                  imp=c(NA,5.1,6,6.6,7.4,8.1,8.6,9.9))
-
-pd <- as.matrix(mee[,-1])
-
-par(mfrow=c(2,1), mai=c(0.3,0.4,0.3,0), omi=c(0.1,0,0,0))
-## top panel
-bp <- barplot(height=rep(NA,8), las=1, ylim=c(0,13),
-              col="#488fdf", border=NA, space=1,
-              ylab="",
-              cex.lab=1.4, yaxt="n")
-abline(h=seq(0,12,3), col="gray")
-text(0, 1.15*par()$usr[4], cex=1.4,
-     "Issues per year", xpd=NA, pos=4)
-barplot(height=mee$issues, las=1, add=TRUE,
-        col="#488fdf", border=NA, space=1,
-        ylab="Issues per year",
-        cex.lab=1.4, yaxt="n")
-axis(2, at=seq(0,12,3), las=1, tick=FALSE, cex.axis=1.2)
-## bottom panel
-barplot(height=rep(NA,8), las=1,
-        col="darkblue", border=NA, space=1,
-        ylim=c(0,11),
-        ylab="", cex.lab=1.4, yaxt="n")
-abline(h=seq(0,10,2), col="gray")
-text(0, 1.15*par()$usr[4], cex=1.4,
-     "Impact factor", xpd=NA, pos=4)
-barplot(height=mee$imp, las=1, names.arg=mee$yr, add=TRUE,
-        col="#ff8100", space=1, border=NA,
-        cex.names=1.2,
-        ylab="", cex.lab=1.4, yaxt="n")
-axis(2, at=seq(0,10,2), las=1, tick=FALSE, cex.axis=1.2)
-text(bp[1],1,"NA",col="darkgray", adj=c(0.5,0.5))
-```
 
 ---
 
@@ -459,232 +406,6 @@ $$\LARGE \mathbf{x}_t = \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t \\
 
 class: inverse, center, middle
 
-# How do I actually do this?
-
----
-
-# Many software options
-
-## .green-text[Canned **R** packages] (dlm, vars, MARSS<sup>*</sup>)
-
-## .blue-text[Code-your-own] (JAGS, Stan, greta)
-
-.footnoteSm.gray-text[
-<sup>\*</sup>Holmes, Ward, Scheuerell (2018) _Analysis of multivariate time-series using the MARSS package_
-]
-
----
-
-class: frimg, inverse-black
-background-image: url(figs/snake_oil.jpg)
-background-size: cover
-
----
-
-class: center, middle, inverse
-
-# Emergence of high-dimension data
-
----
-
-class: frimg, black-back
-
-background-image: url(figs/remote_sensing.jpg)
-background-position: 50% 50%
-background-size: 100%
-
-# .white-text[Remote sensing]
-
----
-
-class: frimg, center
-
-background-image: url(figs/dna.png)
-background-position: 50% 50%
-background-size: 100%
-
-# Genetics
-
----
-
-class: frimg, right
-
-background-image: url(figs/bird_count.jpg)
-background-position: 65% 50%
-background-size: 80%
-
-# Citizen Science
-
----
-
-class: center, middle, inverse
-
-# How can we make sense of all of this?
-
-
----
-
-class: frimg, inverse, right
-background-image: url(figs/shake.jpg)
-background-position: 50% 50%
-background-size: 100%
-
-.white-text[
-# Classification
-
-<br><br>
-
-## .right[ History ]
-
-## .left[ Tragedy ]
-
-<br><br>
-
-## .center[ Comedy ]  
-]
-
----
-
-class: center
-
-# Ordination
-
-```{r pca_ex, warning=FALSE, message=FALSE, echo=FALSE, dpi=300, fig.height=5, fig.width=10, fig.align='center', out.height="100%", out.width="100%"}
-set.seed(123)
-
-par(mfrow=c(1,2), mai=c(0.7,0.7,0.3,0.3), omi=rep(0,4), lwd=2, fg="black")
-
-## PCA
-biplot(prcomp(rock[,c(1,2,4)]), col=c("black", "darkorange"),
-       yaxt="n", xaxt="n", ylab="", xlab="")
-mtext(side=1, expression(PC[1]), cex=1.5, line=1)
-mtext(side=2, expression(PC[2]), cex=1.5, line=1)
-mtext(side=3, "PCA", cex=2, line=0)
-
-## NMDS
-comm_mat <- matrix(
-   sample(1:100,300,replace=T),nrow=6,
-   dimnames=list(paste("community",1:6,sep="_"),paste0("sp",1:50)))
-
-nmds <- vegan::metaMDS(comm_mat, k=3, trymax=100, trace=0)
-
-vegan::ordiplot(nmds, type="n",
-                yaxt="n", xaxt="n", ylab="", xlab="")
-vegan::orditorp(nmds, display="species", col="dodgerblue", air=0.01)                     
-vegan::orditorp(nmds, display="sites", cex=1.25, col="darkorange", air=0.01)                     
-mtext(side=1, expression(NMDS[1]), cex=1.5, line=1)
-mtext(side=2, expression(NMDS[2]), cex=1.5, line=1)
-mtext(side=3, "NMDS", cex=2, line=0)
-```
-
----
-
-```{r plot_many_ts, echo=FALSE, dpi=300, fig.height=5.5, fig.width=7, fig.align='center'}
-NN <- 25
-TT <- 30
-MM <- 3
- 
-set.seed(123)
-## MM x TT matrix of innovations
-ww <- matrix(rnorm(MM*TT, 0, 1), MM, TT)
-ww[,1] <- rnorm(MM, 0, sqrt(5))
-## MM x TT matrix of scaled latent trends
-xx <- t(scale(apply(ww,1,cumsum)))
-
-## loadings matrix
-ZZ <- matrix(runif(NN*MM, -1, 1), NN, MM)
-diag(ZZ) <- rev(sort(abs(diag(ZZ))))
-ZZ[upper.tri(ZZ)] <- 0
-ZZ <- round(ZZ, 2)
-
-## obs var
-obs_var <- 0.2^2
-## obs errors
-ee <- t(MASS::mvrnorm(TT, matrix(0,NN,1), diag(obs_var,NN,NN)))
-## NN x TT matrix of observed data
-yy <- ZZ %*% xx + ee
-
-clr <- viridis::plasma(NN, alpha=0.7, end=0.8)
-
-vv <- sample(seq(NN), NN)
-
-par(mfrow=c(5,5), mai=c(0.1,0.1,0,0), omi=c(0,0,0,0)) 
-
-for(i in 1:NN) {
-	plot.ts(yy[vv[i],], lwd=2,
-	        xlab="", xaxt="n", ylab="", yaxt="n",
-	        col=clr[i], bty="n")
-}
-```
-
----
-
-class: center
-
-# Just some combination of these
-
-```{r plot_dfa_trends, echo=FALSE, fig.align="center", dpi=300, fig.height=3, fig.width=8}
-## plot the trends
-par(mfrow=c(1,3), mai=c(0.2,0,0,0), omi=rep(0.1,4))
-clr <- viridis::plasma(MM, end=0.8)
-for(i in 1:3) {
-	plot.ts(xx[i,], lwd=3,
-	        xlab="", xaxt="n", ylab="", yaxt="n",
-	        col=clr[i], bty="n")
-}
-```
-
----
-
-# Dynamic Factor Analysis
-
-## .blue-text.under[State model]
-
-## .blue-text[Trends]<sub><i>t</i></sub> = .blue-text[Trends]<sub><i>t</i>-1</sub> + .gray-text[errors]<sub><i>t</i></sub> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (A few)
-
-## .purple-text.under[Observation model]
-
-## .purple-text[Data]<sub><i>t</i></sub> = .orange-text[Loadings] × .blue-text[Trends]<sub><i>t</i></sub> + .red-text[errors]<sub><i>t</i></sub> &nbsp; &nbsp; &nbsp; (Many)
-
-
----
-
-# Salmon returns & productivity
-
-.blue-text.right[
-## Trying to understand when & where stocks covary
-]
-
-.gray-text.right[
-### Stachura et al. (2014) _CJFAS_
-
-### Goertler et al. (2016) _PLoS One_
-
-### Ohlberger et al. (2016) _Ecosphere_
-
-### Jorgensen et al. (2016) _Ecology & Evolution_
-]
-
----
-
-# Abundance & catches of groundfish
-
-.right.blue-text[
-## How do spatial patterns change over time?
-]
-
-.gray-text.right[
-### Thorson et al. (2015) *Meth* *Ecol* & *Evol*
-
-### Thorson et al. (2016) *Global Ecol & Biogeogr*
-
-### Thorson et al. (2018) *Proc Royal Soc B*
-]
-
----
-
-class: inverse, center, middle
-
 # Conservation of Pacific salmon
 
 ---
@@ -827,38 +548,6 @@ arrows(x0=tstar,y0=par()$usr[3]-aB,y1=par()$usr[3]*0.99,
 text(tstar,par()$usr[3]-aB, "T",
 	 cex=2, col="darkgray", pos=1, xpd=TRUE)
 ```
-
----
-
-# A model from advertising
-
-## .blue-text.under[State model]
-
-## .blue-text[Sales]<sub><i>t</i></sub> = .blue-text[Sales]<sub><i>t</i>-1</sub> + .orange-text[Advertising]<sub><i>t</i></sub> + .gray-text[error]<sub><i>t</i></sub>
-
----
-
-# A model from advertising
-
-## .blue-text.under[State model]
-
-## .blue-text[Sales]<sub><i>t</i></sub> = .blue-text[Sales]<sub><i>t</i>-1</sub> + .orange-text[Advertising]<sub><i>t</i></sub> + .gray-text[error]<sub><i>t</i></sub>
-
-## .purple-text.under[Observation model]
-
-## .purple-text[Data]<sub><i>t</i></sub> = .blue-text[Sales]<sub><i>t</i></sub> + .red-text[error]<sub><i>t</i></sub>
-
----
-
-# A model for supplementation
-
-## .blue-text.under[State model]
-
-## .blue-text[Density]<sub><i>t</i></sub> = .blue-text[Density]<sub><i>t</i>-1</sub> + .orange-text[Supplementation]<sub><i>t</i></sub> + .gray-text[error]<sub><i>t</i></sub>
-
-## .purple-text.under[Observation model]
-
-## .purple-text[Data]<sub><i>t</i></sub> = .blue-text[Density]<sub><i>t</i></sub> + .red-text[error]<sub><i>t</i></sub>
 
 ---
 
@@ -1039,18 +728,11 @@ class: inverse, center, middle
 # Image sources
 
 .blue-text.small[
-MN map: *Chandler O’Leary (2013)*  
-WI map: *Cat's Meow Village*  
-LIDAR: *NOAA*  
-DNA: *fizzgig (2016)*  
-Robin Hood: *John Escott*  
 M Caulkin: *20th Century Fox*  
 Carnival: *Frank Kovalchek (2010)*   
-Snake oil: *The Register*  
-Shakespeare's plays: *Sir John Gilbert (1849)*  
+Robin Hood: *John Escott*  
 Budweiser: *Anheiser-Busch*  
 DWH: *US Coast Guard*  
-PNW: *Raven Maps* 
 ]
 
 ---
