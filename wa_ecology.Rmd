@@ -13,7 +13,9 @@ output:
 options(htmltools.dir.version = FALSE, servr.daemon = TRUE)
 ```
 
-class: center, middle
+class: center
+
+<br>
 
 # QUANTITATIVE APPROACHES FOR IMPROVED UNDERSTANDING AND MANAGEMENT OF AQUATIC RESOURCES
 ## Mark Scheuerell
@@ -22,20 +24,6 @@ _USGS WACFWRU<br>UW SAFS<br>_
 .futnote.purple-text[`r icon::fa("envelope")` scheuerl@uw.edu]
 
 .citation.blue-text[`r icon::fa("twitter")` @mark_scheuerell]
-
----
-
-# Acknowledgments
-
-### .blue-text[ Elizabeth Holmes, Jim Thorson, Eric Ward ] (NMFS)
-
-### .blue-text[ Eric Buhle, Kevin See ] (Biomark)
-
-### .blue-text[ Brice Semmens ] (Scripps)
-
-### .blue-text[ Casey Ruff, Eric Beamer ] (Skagit River Coop)
-
-### .blue-text[ Joe Anderson ] (WDFW)
 
 ---
 
@@ -723,11 +711,11 @@ class: inverse, center, middle
 
 # Slide deck
 
-.blue-text[https://faculty.washington.edu/scheuerl/AUL_SAFS.pdf]
+### .blue-text[https://faculty.washington.edu/scheuerl/Scheuerell_WDE_2019.pdf]
 
 # Image sources
 
-.blue-text.small[
+### .blue-text.small[
 M Caulkin: *20th Century Fox*  
 Carnival: *Frank Kovalchek (2010)*   
 Robin Hood: *John Escott*  
