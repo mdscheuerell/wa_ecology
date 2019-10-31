@@ -70,13 +70,13 @@ nn <- 20
 ## some values for the predictor x
 xx <- sort(runif(nn, 0, 20))
 ## intercept
-alpha <- 1
+beta_0 <- 1
 ## slope
-beta <- 0.5
+beta_1 <- 0.5
 ## random errors (mean = 0, SD = 1)
 epsilon <- rnorm(nn)
 ## observed data
-yy <- alpha + beta*xx + epsilon
+yy <- beta_0 + beta_1*xx + epsilon
 
 ## fit a regression model
 mm <- lm(yy ~ xx)
@@ -98,29 +98,29 @@ plot(xx, yy, pch = 19, las = 1,
 
 `r fig_cap(cnt, caption = "Plot of some hypothetical data.", display = "full")` 
 
-Based on the apparent relationship between $x$ and $y$, we might assume that each of the observed values $y_i$ is a linear combination of an intercept $\alpha$, the effect $\beta$ of a covariate $x_i$, and some random observation error $\epsilon_i$, such that
+Based on the apparent relationship between $x$ and $y$, we might assume that each of the observed values $y_i$ is a linear combination of an intercept $\beta_0$, the effect $\beta_1$ of a covariate $x_i$, and some random observation error $\epsilon_i$, such that
 
 $$
-y_i = \alpha + \beta x_i + \epsilon_i,
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i,
 $$
 
-and $\epsilon_i \sim \text{N}(0, \sigma)$. We could easily estimate the unknown parameters in this model ($\alpha$, $\beta$, $\sigma$), and then use the deterministic portion of the model to make predictions to compare with each of the observed values. Specifically, the predictions $(\hat{y}_i)$ would be given by a straight line, such that
+and $\epsilon_i \sim \text{N}(0, \sigma)$. We could easily estimate the unknown parameters in this model ($\beta_0$, $\beta_1$, $\sigma$), and then use the deterministic portion of the model to make predictions to compare with each of the observed values. Specifically, the predictions $(\hat{y}_i)$ would be given by a straight line, such that
 
 $$
-\hat{y}_i = \hat{\alpha} + \hat{\beta} x_i.
+\hat{y}_i = \hat{\beta_0} + \hat{\beta_1} x_i.
 $$
 
-We could then use these predictions to estimate both their SD and RMSE (Figure 2). The SD of $\hat{y}$ is ~`r round(sd(yhat), 3)`, but the RMSE is only ~`r round(rmse(yhat, yy), 3)`.
+We could then use these predictions to estimate both their SD and RMSE (Figure 2). The SD of $\hat{y}$ is ~`r round(sd(yhat), 2)`, but the RMSE is only ~`r round(rmse(yhat, yy), 2)`, which is nearly `r round(sd(yhat) / rmse(yhat, yy), 0)` times less.
 
 \vspace{0.2in}
 
 
-```{r plot_regr_ex, echo = FALSE, fig.width = 8, fig.height = 4.5, fig.align="center"}
+```{r fig_2_plot_regr_ex, echo = FALSE, fig.width = 8, fig.height = 4.5, fig.align="center"}
 par(mfrow = c(1,2), mai = c(1.5,1,0.5,0.25), cex = 0.7)
 ## plot yhat and mean(yhat)
 plot(xx, yy, pch = 16, las = 1, type = "n",
      xlab = expression(italic(x)),
-     ylab = expression(italic(y)~~or~~m[hat(italic(y))]))
+     ylab = expression(hat(italic(y))~~or~~m[hat(italic(y))]))
 mtext("SD", side = 3, line = 1)
 segments(x0 = xx, y0 = yhat, y1 = mean(yhat), col = "gray")
 points(xx, yhat, pch = 21, bg = "white")
@@ -135,9 +135,61 @@ points(xx, yy, pch = 19)
 points(xx, yhat, pch = 21, bg = "white")
 ```
 
-```{r, echo=FALSE}
+```{r, echo = FALSE}
 cnt <- cnt + 1
 ```
 
 `r fig_cap(cnt, caption = "Graphical examples of the difference between the SD of the predictions (left) and the RMSE of the predictions (right). For the SD, the comparison is based upon the differences between the predictions (open circles) and their mean (filled circles). For the RMSE, the comparison is based upon differences between the predictions (open circles) and the observed data (filled circles). In both cases, one would square the length of each of the vertical gray lines, sum them up, and divide by the number of them before finally taking the square root.", display = "full")` 
+
+# Prediction errors
+
+The above example dismisses an important aspect of RMSE: it should be used to compare "out of sample" predictions. Furthermore, RMSE give us an indication as to the predictive error, *on average*, rather than the uncertainty in a specific prediction.
+
+Returning to our example above, we could estimate our uncertainty around the fitted relationship between $x$ and $y$ with a confidence interval, which would give us an indication of the range of where the "true" fitted values would lie had we repeated our sampling exercise many times. Specifically, a $(1 - \alpha)100$% confidence level on the expected relationship between $x$ and $y$ at some value $x_k$ is given by
+
+$$
+\hat{y}_{i} \pm t_{\alpha / 2, n-2} \sqrt{\sigma \left(\frac{1}{n}+\frac{\left(x_{k}-\bar{x}\right)^{2}}{\sum\left(x_{i}-\bar{x}\right)^{2}}\right)}.
+$$
+
+The interval increases as the distance between $x_k$ and $\bar{x}$ increases (Figure 3).
+
+```{r fig_3_CI, echo = FALSE, warning = FALSE, fig.height=4.5, fig.width=4, fig.pos="placeHere", fig.align="center"}
+y_ci <- predict(mm, interval = "confidence")
+y_pi <- predict(mm, interval = "prediction")
+
+par(mai = c(1.5,1,0.5,0.25), cex = 0.7)
+## plot yhat and mean(yhat)
+plot(xx, yy, pch = 19, las = 1, ylim = range(y_pi),
+     xlab = expression(italic(x)),
+     ylab = expression(italic(y)))
+lines(xx, y_ci[,"fit"])
+lines(xx, y_ci[,"lwr"], col = "gray")
+lines(xx, y_ci[,"upr"], col = "gray")
+```
+
+```{r, echo = FALSE}
+cnt <- cnt + 1
+```
+
+`r fig_cap(cnt, caption = "Confidence interval (gray lines) around the fitted linear relationship between $x$ and $y$ (black line).", display = "full")` 
+
+In a case like this, however, where we wish to make out-of-sample predictions about some new state of nature, our uncertainty around any single prediction will be greater.
+
+```{r fig_4_PI, echo = FALSE, warning = FALSE, fig.height=4.5, fig.width=4, fig.pos="placeHere", fig.align="center"}
+par(mai = c(1.5,1,0.5,0.25), cex = 0.7)
+## plot yhat and mean(yhat)
+plot(xx, yy, pch = 19, las = 1, ylim = range(y_pi),
+     xlab = expression(italic(x)),
+     ylab = expression(italic(y)))
+lines(xx, y_pi[,"fit"])
+lines(xx, y_pi[,"lwr"], col = "gray")
+lines(xx, y_pi[,"upr"], col = "gray")
+```
+
+```{r, echo = FALSE}
+cnt <- cnt + 1
+```
+
+`r fig_cap(cnt, caption = "Prediction interval (gray lines) around the fitted linear relationship between $x$ and $y$ (black line).", display = "full")` 
+
 
