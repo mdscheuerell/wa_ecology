@@ -11,12 +11,22 @@ geometry: margin=1in
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, dev = "pdf")
+
+if(!require("captioner")) {
+  devtools::install_github("adletaw/captioner")
+  library("captioner")
+}
+
+## set default caption delimter
+fig_cap <- captioner(suffix = ".")
+## initialize figure number
+cnt <- 1
 ```
 
 
 # Error in assumptions
 
-In the section titled "Uncertainty in Dissolved Oxygen Depletion Estimates" (p59), there is an error in the assumed relationship between the standard deviation of the predictions and root mean squared error (RMSE) of the predictions. Specifically, the document incorrectly suggests that
+In the section titled "Uncertainty in Dissolved Oxygen Depletion Estimates" (p59), there is an error in the assumed relationship between the standard deviation of the predictions and the root mean squared error (RMSE) of the predictions. Specifically, the document incorrectly suggests that
 
 $$
 \text{Var}(\hat{y}) = \text{RMSE}(\hat{y})^2 ~ \Rightarrow ~ \text{SD}(\hat{y}) = \text{RMSE}(\hat{y}).
@@ -43,23 +53,7 @@ $$
 \end{aligned}
 $$
 
-# An example
-
-Here is a simple example based upon a linear regression model that shows how $\text{SD}(\hat{y})$ and $\text{RMSE}(\hat{y})$ are different. Consider a case where we had reason to believe that a variable $y$ was a function of another variable $x$. In effort to undercover the nature of their relationship, we collected a number of samples of both $y$ and $x$.
-
-Here we assume that each of the observed values $y_i$ is a linear combination of an intercept $\alpha$, the effect $\beta$ of a covariate $x_i$, and some random observation error $\epsilon_i$, such that
-
-$$
-y_i = \alpha + \beta x_i + \epsilon_i,
-$$
-
-and $\epsilon_i \sim \text{N}(0, \sigma)$. the predictions are given by
-
-$$
-\hat{y}_i = \hat{\alpha} + \hat{\beta} x_i.
-$$
-
-\vspace{0.2in}
+\vspace{0.25in}
 
 ```{r regr_ex, echo = FALSE}
 ## set random seed for reprodicibility
@@ -90,8 +84,38 @@ mm <- lm(yy ~ xx)
 yhat <- predict(mm)
 ```
 
+# An example
 
-```{r plot_regr_ex, echo = FALSE, fig.width = 8, fig.height = 5, fig.align="center"}
+Here is a simple example that shows how $\text{SD}(\hat{y})$ and $\text{RMSE}(\hat{y})$ are different. Consider a case where we had reason to believe that a variable $y$ was a function of another variable $x$. In effort to undercover the nature of their relationship, we collected 20 samples of both $y$ and $x$ (Figure 1).
+
+```{r fig_1_data, echo = FALSE, fig.height=4.5, fig.width=4, fig.pos="placeHere", fig.align="center"}
+par(mai = c(1.5,1,0.5,0.25), cex = 0.7)
+## plot yhat and mean(yhat)
+plot(xx, yy, pch = 19, las = 1,
+     xlab = expression(italic(x)),
+     ylab = expression(italic(y)))
+```
+
+`r fig_cap(cnt, caption = "Plot of some hypothetical data.", display = "full")` 
+
+Based on the apparent relationship between $x$ and $y$, we might assume that each of the observed values $y_i$ is a linear combination of an intercept $\alpha$, the effect $\beta$ of a covariate $x_i$, and some random observation error $\epsilon_i$, such that
+
+$$
+y_i = \alpha + \beta x_i + \epsilon_i,
+$$
+
+and $\epsilon_i \sim \text{N}(0, \sigma)$. We could easily estimate the unknown parameters in this model ($\alpha$, $\beta$, $\sigma$), and then use the deterministic portion of the model to make predictions to compare with each of the observed values. Specifically, the predictions $(\hat{y}_i)$ would be given by a straight line, such that
+
+$$
+\hat{y}_i = \hat{\alpha} + \hat{\beta} x_i.
+$$
+
+We could then use these predictions to estimate both their SD and RMSE (Figure 2). The SD of $\hat{y}$ is ~`r round(sd(yhat), 3)`, but the RMSE is only ~`r round(rmse(yhat, yy), 3)`.
+
+\vspace{0.2in}
+
+
+```{r plot_regr_ex, echo = FALSE, fig.width = 8, fig.height = 4.5, fig.align="center"}
 par(mfrow = c(1,2), mai = c(1.5,1,0.5,0.25), cex = 0.7)
 ## plot yhat and mean(yhat)
 plot(xx, yy, pch = 16, las = 1, type = "n",
@@ -109,12 +133,11 @@ mtext("RMSE", side = 3, line = 1)
 segments(x0 = xx, y0 = yhat, y1 = yy, col = "gray")
 points(xx, yy, pch = 19)
 points(xx, yhat, pch = 21, bg = "white")
-
-## calculate RMSE
-round(rmse(yhat, yy), 3)
-## calculate SD
-round(sd(yhat), 3)
-
-sqrt(var(xx) * coef(mm)[2]^2)
 ```
+
+```{r, echo=FALSE}
+cnt <- cnt + 1
+```
+
+`r fig_cap(cnt, caption = "Graphical examples of the difference between the SD of the predictions (left) and the RMSE of the predictions (right). For the SD, the comparison is based upon the differences between the predictions (open circles) and their mean (filled circles). For the RMSE, the comparison is based upon differences between the predictions (open circles) and the observed data (filled circles). In both cases, one would square the length of each of the vertical gray lines, sum them up, and divide by the number of them before finally taking the square root.", display = "full")` 
 
