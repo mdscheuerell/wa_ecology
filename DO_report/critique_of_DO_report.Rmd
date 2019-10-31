@@ -1,0 +1,84 @@
+---
+title: "Critique of model evaluation by WA Dept of Ecology"
+author: "Mark Scheuerell"
+date: "10/31/2019"
+output:
+  pdf_document:
+    highlight: haddock
+fontsize: 11pt
+geometry: margin=1in
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Error in assumptions
+
+In the section titled "Uncertainty in Dissolved Oxygen Depletion Estimates" (p59), there is an error in the assumed relationship between the standard deviation of the predictions and root mean squared error (RMSE) of the predictions. Specifically, the document incorrectly suggests that
+
+$$
+\text{Var}(\hat{x}) = \text{RMSE}(\hat{x})^2 ~ \Rightarrow ~ \text{SD}(\hat{x}) = \text{RMSE}(\hat{x}).
+$$
+
+Specifically, the standard deviation of ${\hat{x}}$ is based upon differences between the predicted data points $\hat{x}_i$ and their mean $\bar{\hat{x}}$
+
+$$
+\text{SD}(\hat{x}) = \sqrt{\frac{(\hat{x}_i - \bar{\hat{x}})^2}{N}},
+$$
+
+whereas the RMSE of $\hat{x}$ is based upon differences between the predicted data points and their corresponding observed values $x_i$
+
+$$
+\text{RMSE}(\hat{x}) = \sqrt{\frac{(\hat{x}_i - x_i)^2}{N}}.
+$$
+
+Thus,
+
+$$
+\sqrt{\frac{(\hat{x}_i - \bar{\hat{x}})^2}{N}} \neq \sqrt{\frac{(\hat{x}_i - x_i)^2}{N}}.
+$$
+
+
+```{r regr_ex}
+
+rmse <- function(fit, obs) {
+  rmse <- sqrt(sum((fit - obs)^2)/length(fit))
+  return(rmse)
+}
+
+nn <- 30
+
+xx <- runif(nn, 0, 10)
+
+aa <- 1
+
+bb <- 0.5
+
+ee <- rnorm(nn)
+
+yy <- aa + bb*xx + ee
+
+
+mm <- lm(yy ~ xx)
+
+yhat <- predict(mm)
+
+plot(xx, yy, pch = 16)
+points(xx, yhat)
+
+rmse(yhat, yy)
+
+sd(yhat)
+
+sd(yy)
+
+cor(xx, yy)
+
+var(xx)
+var(yy)
+var(xx - yy)
+
+```
+
