@@ -10,7 +10,7 @@ geometry: margin=1in
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, dev = "pdf")
 ```
 
 
@@ -40,45 +40,57 @@ $$
 \sqrt{\frac{(\hat{x}_i - \bar{\hat{x}})^2}{N}} \neq \sqrt{\frac{(\hat{x}_i - x_i)^2}{N}}.
 $$
 
+# An example
 
-```{r regr_ex}
+Here is a simple example based up linear regression that shows how $\text{SD}(\hat{x})$ and $\text{RMSE}(\hat{x})$ are different. The model is
 
+$$
+y_i = \alpha + \beta x_i + \epsilon_i
+$$
+
+and the predictions are given by
+
+$$
+\hat{y}_i = \hat{\alpha} + \hat{\beta} x_i.
+$$
+
+\vspace{0.2in}
+
+```{r regr_ex, fig.width = 5, fig.height = 5, fig.pos = "placeHere", fig.align="center"}
+## function to calculate RMSE
 rmse <- function(fit, obs) {
   rmse <- sqrt(sum((fit - obs)^2)/length(fit))
   return(rmse)
 }
 
+## sample size
 nn <- 30
-
+## some values for the predictor x
 xx <- runif(nn, 0, 10)
+## intercept
+alpha <- 1
+## slope
+beta <- 0.5
+## random errors (mean = 0, SD = 1)
+epsilon <- rnorm(nn)
+## observed data
+yy <- alpha + beta*xx + epsilon
 
-aa <- 1
-
-bb <- 0.5
-
-ee <- rnorm(nn)
-
-yy <- aa + bb*xx + ee
-
-
+## fit a regression model
 mm <- lm(yy ~ xx)
-
+## get predicted values
 yhat <- predict(mm)
+## plot observed and predicted
+par(mai = c(1,1,1,1))
+plot(xx, yy, pch = 16, las = 1,
+     xlab = expression(italic(x)),
+     ylab = expression(italic(y)~~or~~hat(italic(y))))
+points(xx, yhat, pch = 16, col = "blue")
 
-plot(xx, yy, pch = 16)
-points(xx, yhat)
-
-rmse(yhat, yy)
-
-sd(yhat)
-
-sd(yy)
-
-cor(xx, yy)
-
-var(xx)
-var(yy)
-var(xx - yy)
+## calculate RMSE
+round(rmse(yhat, yy), 2)
+## calculate SD
+round(sd(yhat), 2)
 
 ```
 
