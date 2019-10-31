@@ -98,6 +98,8 @@ plot(xx, yy, pch = 19, las = 1,
 
 `r fig_cap(cnt, caption = "Plot of some hypothetical data.", display = "full")` 
 
+\vspace{0.2in}
+
 Based on the apparent relationship between $x$ and $y$, we might assume that each of the observed values $y_i$ is a linear combination of an intercept $\beta_0$, the effect $\beta_1$ of a covariate $x_i$, and some random observation error $\epsilon_i$, such that
 
 $$
@@ -110,9 +112,7 @@ $$
 \hat{y}_i = \hat{\beta_0} + \hat{\beta_1} x_i.
 $$
 
-We could then use these predictions to estimate both their SD and RMSE (Figure 2). The SD of $\hat{y}$ is ~`r round(sd(yhat), 2)`, but the RMSE is only ~`r round(rmse(yhat, yy), 2)`, which is nearly `r round(sd(yhat) / rmse(yhat, yy), 0)` times less.
-
-\vspace{0.2in}
+We could then use these predictions to estimate both their SD and RMSE (Figure 2). The SD of $\hat{y}$ is ~`r round(sd(yhat), 2)`, but the RMSE is only ~`r round(rmse(yhat, yy), 2)`, which is about `r round(sd(yhat) / rmse(yhat, yy), 0)` times less.
 
 
 ```{r fig_2_plot_regr_ex, echo = FALSE, fig.width = 8, fig.height = 4.5, fig.align="center"}
@@ -141,11 +141,13 @@ cnt <- cnt + 1
 
 `r fig_cap(cnt, caption = "Graphical examples of the difference between the SD of the predictions (left) and the RMSE of the predictions (right). For the SD, the comparison is based upon the differences between the predictions (open circles) and their mean (filled circles). For the RMSE, the comparison is based upon differences between the predictions (open circles) and the observed data (filled circles). In both cases, one would square the length of each of the vertical gray lines, sum them up, and divide by the number of them before finally taking the square root.", display = "full")` 
 
+\vspace{0.25in}
+
 # Prediction errors
 
 The above example dismisses an important aspect of RMSE: it should be used to compare "out of sample" predictions. Furthermore, RMSE give us an indication as to the predictive error, *on average*, rather than the uncertainty in a specific prediction.
 
-Returning to our example above, we could estimate our uncertainty around the fitted relationship between $x$ and $y$ with a confidence interval, which would give us an indication of the range of where the "true" fitted values would lie had we repeated our sampling exercise many times. Specifically, a $(1 - \alpha)100$% confidence level on the expected relationship between $x$ and $y$ at some value $x_k$ is given by
+Returning to our example above, we could estimate our uncertainty around the fitted relationship between $x$ and $y$ with a confidence interval (CI), which would give us an indication of the range of where the "true" fitted values would lie had we repeated our sampling exercise many times. Specifically, a $(1 - \alpha)100$% CI on the expected relationship between $x$ and $y$ at some value $x_k$ is given by
 
 $$
 \hat{y}_{i} \pm t_{\alpha / 2, n-2} \sqrt{\sigma \left(\frac{1}{n}+\frac{\left(x_{k}-\bar{x}\right)^{2}}{\sum\left(x_{i}-\bar{x}\right)^{2}}\right)}.
@@ -171,9 +173,23 @@ lines(xx, y_ci[,"upr"], col = "gray")
 cnt <- cnt + 1
 ```
 
-`r fig_cap(cnt, caption = "Confidence interval (gray lines) around the fitted linear relationship between $x$ and $y$ (black line).", display = "full")` 
+`r fig_cap(cnt, caption = "Confidence interval (gray lines) around the expected relationship between $x$ and $y$ (black line).", display = "full")` 
 
-In a case like this, however, where we wish to make out-of-sample predictions about some new state of nature, our uncertainty around any single prediction will be greater.
+\vspace{0.2in}
+
+In a case like this, however, where we wish to make out-of-sample predictions about some new state of nature, our uncertainty around any single prediction will be necessarily greater. Specifically, a $(1 - \alpha)100$% prediction interval (PI) around $\hat{y}$ at some value $x_k$ is given by
+
+$$
+\hat{y} \pm t_{\alpha / 2, n-2} \sqrt{\sigma \left(1 + \frac{1}{n}+\frac{\left(x_{k}-\bar{x}\right)^{2}}{\sum\left(x_{i}-\bar{x}\right)^{2}}\right)}.
+$$
+
+```{r y_new, echo = FALSE}
+y_new <- predict(mm, new = data.frame(xx = 10), interval = "prediction")
+```
+
+Here the paranthetic multiplier on the residual variance $\sigma$ has increased by 1, which creates more uncertainty in the prediction interval than the confidence interval (Figure 4). This is because the CI only needs to account for uncertainty in estimating the expected value of $y$ whereas the PI needs to account for a random future value of $y$.
+
+So, for example, if we wanted to predict what we would observe for $y$ if $x = 10$ with 95% certainty, we would get `r round(y_new[,"fit"], 2)` $\pm$ `r round(y_new[,"fit"] - y_new[,"lwr"], 2)` (Figure 5).
 
 ```{r fig_4_PI, echo = FALSE, warning = FALSE, fig.height=4.5, fig.width=4, fig.pos="placeHere", fig.align="center"}
 par(mai = c(1.5,1,0.5,0.25), cex = 0.7)
@@ -190,6 +206,31 @@ lines(xx, y_pi[,"upr"], col = "gray")
 cnt <- cnt + 1
 ```
 
-`r fig_cap(cnt, caption = "Prediction interval (gray lines) around the fitted linear relationship between $x$ and $y$ (black line).", display = "full")` 
+`r fig_cap(cnt, caption = "Prediction interval (gray lines) for future unobserved values of $y$.", display = "full")` 
+
+\vspace{0.2in}
+
+```{r fig_5_new_y, echo = FALSE, warning = FALSE, fig.height=4.5, fig.width=4, fig.pos="placeHere", fig.align="center"}
+par(mai = c(1.5,1,0.5,0.25), cex = 0.7)
+## plot yhat and mean(yhat)
+plot(xx, yy, pch = 19, las = 1, ylim = range(y_pi),
+     xlab = expression(italic(x)),
+     ylab = expression(italic(y)))
+lines(xx, y_pi[,"fit"])
+abline(h = y_new[,"lwr"], col = "gray")
+abline(h = y_new[,"upr"], col = "gray")
+segments(10, y0 = y_new[,"lwr"], y1 = y_new[,"upr"], col = "blue")
+points(10, y_new[,"fit"], pch = 19, col = "blue")
+```
+
+```{r, echo = FALSE}
+cnt <- cnt + 1
+```
+
+`r fig_cap(cnt, caption = "Example of the uncertainty around a new prediction.", display = "full")` 
+
+\vspace{0.2in}
+
+
 
 
