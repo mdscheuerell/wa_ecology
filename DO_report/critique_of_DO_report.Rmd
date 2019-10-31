@@ -19,36 +19,41 @@ knitr::opts_chunk$set(echo = TRUE, dev = "pdf")
 In the section titled "Uncertainty in Dissolved Oxygen Depletion Estimates" (p59), there is an error in the assumed relationship between the standard deviation of the predictions and root mean squared error (RMSE) of the predictions. Specifically, the document incorrectly suggests that
 
 $$
-\text{Var}(\hat{x}) = \text{RMSE}(\hat{x})^2 ~ \Rightarrow ~ \text{SD}(\hat{x}) = \text{RMSE}(\hat{x}).
+\text{Var}(\hat{y}) = \text{RMSE}(\hat{y})^2 ~ \Rightarrow ~ \text{SD}(\hat{y}) = \text{RMSE}(\hat{y}).
 $$
 
-Specifically, the standard deviation of ${\hat{x}}$ is based upon differences between the predicted data points $\hat{x}_i$ and their mean $\bar{\hat{x}}$
+Specifically, the standard deviation of ${\hat{y}}$ is based upon differences between the predicted data points $\hat{y}_i$ and their mean $m_{\hat{y}}$
 
 $$
-\text{SD}(\hat{x}) = \sqrt{\frac{(\hat{x}_i - \bar{\hat{x}})^2}{N}},
+\text{SD}(\hat{y}) = \sqrt{\frac{(\hat{y}_i - m_{\hat{y}})^2}{N}},
 $$
 
-whereas the RMSE of $\hat{x}$ is based upon differences between the predicted data points and their corresponding observed values $x_i$
+whereas the RMSE of $\hat{y}$ is based upon differences between the predicted data points and their corresponding observed values $x_i$
 
 $$
-\text{RMSE}(\hat{x}) = \sqrt{\frac{(\hat{x}_i - x_i)^2}{N}}.
+\text{RMSE}(\hat{y}) = \sqrt{\frac{(\hat{y}_i - y_i)^2}{N}}.
 $$
 
 Thus,
 
 $$
-\sqrt{\frac{(\hat{x}_i - \bar{\hat{x}})^2}{N}} \neq \sqrt{\frac{(\hat{x}_i - x_i)^2}{N}}.
+\begin{aligned}
+\sqrt{\frac{(\hat{y}_i - m_{\hat{y}})^2}{N}} &\neq \sqrt{\frac{(\hat{y}_i - y_i)^2}{N}} \\
+\text{SD}(\hat{y}) &\neq \text{RMSE}(\hat{y}).
+\end{aligned}
 $$
 
 # An example
 
-Here is a simple example based up linear regression that shows how $\text{SD}(\hat{x})$ and $\text{RMSE}(\hat{x})$ are different. The model is
+Here is a simple example based upon a linear regression model that shows how $\text{SD}(\hat{y})$ and $\text{RMSE}(\hat{y})$ are different. Consider a case where we had reason to believe that a variable $y$ was a function of another variable $x$. In effort to undercover the nature of their relationship, we collected a number of samples of both $y$ and $x$.
+
+Here we assume that each of the observed values $y_i$ is a linear combination of an intercept $\alpha$, the effect $\beta$ of a covariate $x_i$, and some random observation error $\epsilon_i$, such that
 
 $$
-y_i = \alpha + \beta x_i + \epsilon_i
+y_i = \alpha + \beta x_i + \epsilon_i,
 $$
 
-and the predictions are given by
+and $\epsilon_i \sim \text{N}(0, \sigma)$. the predictions are given by
 
 $$
 \hat{y}_i = \hat{\alpha} + \hat{\beta} x_i.
@@ -56,17 +61,20 @@ $$
 
 \vspace{0.2in}
 
-```{r regr_ex, fig.width = 5, fig.height = 5, fig.pos = "placeHere", fig.align="center"}
+```{r regr_ex, echo = FALSE}
+## set random seed for reprodicibility
+set.seed(123)
+
 ## function to calculate RMSE
-rmse <- function(fit, obs) {
-  rmse <- sqrt(sum((fit - obs)^2)/length(fit))
+rmse <- function(pre, obs) {
+  rmse <- sqrt(sum((pre - obs)^2)/length(pre))
   return(rmse)
 }
 
 ## sample size
-nn <- 30
+nn <- 20
 ## some values for the predictor x
-xx <- runif(nn, 0, 10)
+xx <- sort(runif(nn, 0, 20))
 ## intercept
 alpha <- 1
 ## slope
@@ -80,17 +88,33 @@ yy <- alpha + beta*xx + epsilon
 mm <- lm(yy ~ xx)
 ## get predicted values
 yhat <- predict(mm)
-## plot observed and predicted
-par(mai = c(1,1,1,1))
-plot(xx, yy, pch = 16, las = 1,
+```
+
+
+```{r plot_regr_ex, echo = FALSE, fig.width = 8, fig.height = 5, fig.align="center"}
+par(mfrow = c(1,2), mai = c(1.5,1,0.5,0.25), cex = 0.7)
+## plot yhat and mean(yhat)
+plot(xx, yy, pch = 16, las = 1, type = "n",
+     xlab = expression(italic(x)),
+     ylab = expression(italic(y)~~or~~m[hat(italic(y))]))
+mtext("SD", side = 3, line = 1)
+segments(x0 = xx, y0 = yhat, y1 = mean(yhat), col = "gray")
+points(xx, yhat, pch = 21, bg = "white")
+points(xx, rep(mean(yy), nn), pch = 19)
+## plot observed and yhat
+plot(xx, yy, pch = 16, las = 1, type = "n",
      xlab = expression(italic(x)),
      ylab = expression(italic(y)~~or~~hat(italic(y))))
-points(xx, yhat, pch = 16, col = "blue")
+mtext("RMSE", side = 3, line = 1)
+segments(x0 = xx, y0 = yhat, y1 = yy, col = "gray")
+points(xx, yy, pch = 19)
+points(xx, yhat, pch = 21, bg = "white")
 
 ## calculate RMSE
-round(rmse(yhat, yy), 2)
+round(rmse(yhat, yy), 3)
 ## calculate SD
-round(sd(yhat), 2)
+round(sd(yhat), 3)
 
+sqrt(var(xx) * coef(mm)[2]^2)
 ```
 
