@@ -96,7 +96,17 @@ plot(xx, yy, pch = 19, las = 1,
      ylab = expression(italic(y)))
 ```
 
+\setlength{\leftskip}{0.375in}
+\setlength{\rightskip}{0.375in}
+
+\small
+
 `r fig_cap(cnt, caption = "Plot of some hypothetical data.", display = "full")` 
+
+\normalsize
+
+\setlength{\leftskip}{0in}
+\setlength{\rightskip}{0in}
 
 \vspace{0.2in}
 
@@ -112,7 +122,7 @@ $$
 \hat{y}_i = \hat{\beta_0} + \hat{\beta_1} x_i.
 $$
 
-We could then use these predictions to estimate both their SD and RMSE (Figure 2). The SD of $\hat{y}$ is ~`r round(sd(yhat), 2)`, but the RMSE is only ~`r round(rmse(yhat, yy), 2)`, which is about `r round(sd(yhat) / rmse(yhat, yy), 0)` times less.
+We could then estimate the SD and RMSE of these predictions (Figure 2). It turns out that the SD of $\hat{y}$ is ~`r round(sd(yhat), 2)`, but the RMSE is only ~`r round(rmse(yhat, yy), 2)`, which is about `r round(sd(yhat) / rmse(yhat, yy), 0)` times less.
 
 
 ```{r fig_2_plot_regr_ex, echo = FALSE, fig.width = 8, fig.height = 4.5, fig.align="center"}
@@ -139,7 +149,17 @@ points(xx, yhat, pch = 21, bg = "white")
 cnt <- cnt + 1
 ```
 
+\setlength{\leftskip}{0.375in}
+\setlength{\rightskip}{0.375in}
+
+\small
+
 `r fig_cap(cnt, caption = "Graphical examples of the difference between the SD of the predictions (left) and the RMSE of the predictions (right). For the SD, the comparison is based upon the differences between the predictions (open circles) and their mean (filled circles). For the RMSE, the comparison is based upon differences between the predictions (open circles) and the observed data (filled circles). In both cases, one would square the length of each of the vertical gray lines, sum them up, and divide by the number of them before finally taking the square root.", display = "full")` 
+
+\normalsize
+
+\setlength{\leftskip}{0in}
+\setlength{\rightskip}{0in}
 
 \vspace{0.25in}
 
@@ -173,7 +193,17 @@ lines(xx, y_ci[,"upr"], col = "gray")
 cnt <- cnt + 1
 ```
 
-`r fig_cap(cnt, caption = "Confidence interval (gray lines) around the expected relationship between $x$ and $y$ (black line).", display = "full")` 
+\setlength{\leftskip}{0.375in}
+\setlength{\rightskip}{0.375in}
+
+\small
+
+`r fig_cap(cnt, caption = "Example of a 95% confidence interval (gray lines) around the expected relationship between $x$ and $y$ (black line).", display = "full")` 
+
+\normalsize
+
+\setlength{\leftskip}{0in}
+\setlength{\rightskip}{0in}
 
 \vspace{0.2in}
 
@@ -187,9 +217,7 @@ $$
 y_new <- predict(mm, new = data.frame(xx = 10), interval = "prediction")
 ```
 
-Here the paranthetic multiplier on the residual variance $\sigma$ has increased by 1, which creates more uncertainty in the prediction interval than the confidence interval (Figure 4). This is because the CI only needs to account for uncertainty in estimating the expected value of $y$ whereas the PI needs to account for a random future value of $y$.
-
-So, for example, if we wanted to predict what we would observe for $y$ if $x = 10$ with 95% certainty, we would get `r round(y_new[,"fit"], 2)` $\pm$ `r round(y_new[,"fit"] - y_new[,"lwr"], 2)` (Figure 5).
+Here the paranthetic multiplier on the residual variance $\sigma$ has increased by 1, which means the prediction interval is wider (less certain) than the confidence interval (Figure 4). This is because the CI only needs to account for uncertainty in estimating the expected value of $y$ whereas the PI needs to account for a random future value of $y$ that tend to fall away from the mean.
 
 ```{r fig_4_PI, echo = FALSE, warning = FALSE, fig.height=4.5, fig.width=4, fig.pos="placeHere", fig.align="center"}
 par(mai = c(1.5,1,0.5,0.25), cex = 0.7)
@@ -206,7 +234,21 @@ lines(xx, y_pi[,"upr"], col = "gray")
 cnt <- cnt + 1
 ```
 
-`r fig_cap(cnt, caption = "Prediction interval (gray lines) for future unobserved values of $y$.", display = "full")` 
+\setlength{\leftskip}{0.375in}
+\setlength{\rightskip}{0.375in}
+
+\small
+
+`r fig_cap(cnt, caption = "Example of a 95% prediction interval (gray lines) for future unobserved values of $y$.", display = "full")` 
+
+\normalsize
+
+\setlength{\leftskip}{0in}
+\setlength{\rightskip}{0in}
+
+\vspace{0.2in}
+
+So, for example, if we wanted to predict, with 95% certainty, what we would observe for $y$ if $x = 10$, we would get `r round(y_new[,"fit"], 2)` $\pm$ `r round(y_new[,"fit"] - y_new[,"lwr"], 2)` (Figure 5). The relatively wide prediction interval suggests that it might be difficult to discern the prediction for $y$ when $x = 10$ to the expected values for $y$ if $x$ were as low as 5 or as high as 15.
 
 \vspace{0.2in}
 
@@ -227,7 +269,17 @@ points(10, y_new[,"fit"], pch = 19, col = "blue")
 cnt <- cnt + 1
 ```
 
-`r fig_cap(cnt, caption = "Example of the uncertainty around a new prediction.", display = "full")` 
+\setlength{\leftskip}{0.375in}
+\setlength{\rightskip}{0.375in}
+
+\small
+
+`r fig_cap(cnt, caption = "Example of the uncertainty around a new prediction for $y$ when $x = 10$.", display = "full")` 
+
+\normalsize
+
+\setlength{\leftskip}{0in}
+\setlength{\rightskip}{0in}
 
 \vspace{0.2in}
 
