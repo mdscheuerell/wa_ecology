@@ -24,9 +24,18 @@ cnt <- 1
 ```
 
 
-# Error in assumptions
+# Comparison of existing and reference scenarios
 
-In the section titled "Uncertainty in Dissolved Oxygen Depletion Estimates" (p59), there is an error in the assumed relationship between the standard deviation of the predictions and the root mean squared error (RMSE) of the predictions. Specifically, the document incorrectly suggests that
+The focus of the modeling analysis is a comparison of results obtained with two scenarios: a "reference" case that represents a system without anthropogenic inputs, and an "existing" case that represents contemporary conditions. Specifically, Ecology is interested in the difference between the modeled concentration of dissolved oxygen estimated via the two models. In addition, Ecology would like to know the estimated uncertainty in that difference.
+
+## Error in assumptions
+
+In the section titled "Uncertainty in Dissolved Oxygen Depletion Estimates" (p59), it states,
+
+> The RMSE of differences is calculated to understand the uncertainty associated with the result of subtracting one model scenario from another model scenario (i.e., the difference between two model scenarios). In this case, we calculated the error associated with the DO depletions computed from the difference between the existing and reference model scenarios.
+
+
+there is an error in the assumed relationship between the standard deviation of the predictions and the root mean squared error (RMSE) of the predictions. Specifically, the document incorrectly suggests that
 
 $$
 \text{Var}(\hat{y}) = \text{RMSE}(\hat{y})^2 ~ \Rightarrow ~ \text{SD}(\hat{y}) = \text{RMSE}(\hat{y}).
