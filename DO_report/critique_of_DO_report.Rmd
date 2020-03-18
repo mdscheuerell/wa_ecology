@@ -1,7 +1,7 @@
 ---
-title: "Critique of model evaluation by WA Dept of Ecology"
-author: "Mark Scheuerell"
-date: "10/31/2019"
+title: "Critique of model evaluation by the Washington Department of Ecology"
+author: ""
+date: ""
 output:
   pdf_document:
     highlight: haddock
@@ -23,6 +23,26 @@ fig_cap <- captioner(suffix = ".")
 cnt <- 1
 ```
 
+\begin{center}
+  \begin{Large}
+  \textbf{Gordon Holtgrieve} \\
+  \end{Large}
+  \text{School of Aquatic and Fishery Sciences} \\
+  \text{University of Washington} \\
+  \text{Seattle, WA} \\
+  \text{gholt@uw.edu}
+\end{center}
+
+\begin{center}
+  \begin{Large}
+  \textbf{Mark Scheuerell} \\
+  \end{Large}
+  \text{USGS Washington Cooperative Fish and Wildlife Research Unit} \\
+  \text{School of Aquatic and Fishery Sciences} \\
+  \text{University of Washington} \\
+  \text{Seattle, WA} \\
+  \text{scheuerl@uw.edu}
+\end{center}
 
 # Comparison of existing and reference scenarios
 
@@ -36,7 +56,7 @@ In the section titled "Uncertainty in Dissolved Oxygen Depletion Estimates" (p59
 
 The section then goes on to describe how the calculations were made using the estimated root mean squared error (RMSE) between the predictions and observations, but there is a mistake in the assumed relationship between the standard deviation of the predictions and the RMSE.
 
-### An example
+### Variance of predictions
 
 To demonstrate this, consider this simple equation that relates individual observations ($o_i$) and predictions ($p_i$):
 
@@ -50,7 +70,7 @@ $$
 \text{Var}(o) = \text{Var}(p) + \text{Var}(e) + 2 ~ \text{Cov}(p, e)
 $$
 
-In this case our interest of comparison is the uncertainty in the difference in predictions between two different models, not the uncertainty in the difference in residuals between the two models. Therefore, we can rewrite the above equation to show that the variance of the predictions is
+We can rewrite the above equation to show that the variance of the predictions is
 
 $$
 \text{Var}(p) = \text{Var}(o) - \text{Var}(e) + 2 ~ \text{Cov}(p, e).
@@ -69,7 +89,7 @@ and hence
 $$
 \begin{aligned}
 \text{Var}(\delta) &= \text{Var}(p_{ex}) + \text{Var}(p_{ref}) - 2 ~ \text{Cov}(p_{ex}, p_{ref}) \\
-&= \text{Var}(p_{ex}) + \text{Var}(p_{ref}) - 2 ~ \text{Cor}(p_{ex}, p_{ref}) \text{SD}(p_{ex}) \text{SD}(p_{ref})
+&= \text{Var}(p_{ex}) + \text{Var}(p_{ref}) - 2 ~ \text{Cor}(p_{ex}, p_{ref}) ~ \text{SD}(p_{ex}) ~ \text{SD}(p_{ref})
 \end{aligned}
 $$
 
@@ -131,9 +151,9 @@ $$
 \end{aligned}
 $$
 
-Thus, if $\text{Cor}(p_{ex}, p_{ref}) = 0$, then $\text{Var}(\delta) = 5.2 \Rightarrow \text{SD}(\delta) \approx 2.3$; conversely, as $\text{Cor}(p_{ex}, p_{ref}) \rightarrow 1 \Rightarrow \text{Var}(\delta) \rightarrow 0$.
+Thus, if $\text{Cor}(p_{ex}, p_{ref}) = 0$, then $\text{Var}(\delta) = 5.2 \Rightarrow \text{SD}(\delta) \approx 2.3$; conversely, as $\text{Cor}(p_{ex}, p_{ref}) \rightarrow 1$ then $\text{Var}(\delta) \rightarrow 0$.
 
-Although we do not know $\text{Cor}(p_{ex}, p_{ref})$, we can estimate it from the calculations on p59. For example, if we assume that  $\text{Var}(\delta) = 0.041$ as for Ecology's model in 2014, then analogous to above we have
+Although Ecology's report did not say what $\text{Cor}(p_{ex}, p_{ref})$ was, but we can estimate it from the calculations on p59. For example, if we assume that  $\text{Var}(\delta) = 0.041$ as for Ecology's model in 2014, then analogous to above we have
 
 $$
 \begin{aligned}
@@ -145,10 +165,9 @@ $$
 \end{aligned}
 $$
 
-This correlation is remarkably high, indicating that the two models produce nearly identical predictions of DO. Plugging this correlation coefficient into the equation for $\text{Var}(\delta)$ gives $\text{Var}(\delta) = 2(2.6) (1 - 0.98) = 0.104$, and hence $\text{SD}(\delta) \approx 0.32$. 
+This correlation is remarkably high, indicating that the two models produce nearly identical predictions of DO. Inserting this correlation coefficient into the equation for $\text{Var}(\delta)$ gives $\text{Var}(\delta) = 2(2.6) (1 - 0.98) = 0.104$, and hence $\text{SD}(\delta) \approx 0.32$. This value is about eight times greater than those reported in Ecology's document. Thus, if the treshhold concentration for DO depletion is 0.2 mg/L, then the estimated coefficient of variation (CV) around it is 160%.
 
-
-## Example of SD versus RMSE
+# Example of SD versus RMSE
 
 Here is a simple example that shows how $\text{SD}(\hat{y})$ and $\text{RMSE}(\hat{y})$ are different. Consider a case where we had reason to believe that a variable $y$ was a function of another variable $x$. In effort to undercover the nature of their relationship, we collected 20 samples of both $y$ and $x$ (Figure 1).
 
@@ -213,7 +232,7 @@ $$
 \hat{y}_i = \hat{\beta_0} + \hat{\beta_1} x_i.
 $$
 
-We could then estimate the SD and RMSE of these predictions (Figure 2). It turns out that the SD of $\hat{y}$ is ~`r round(sd(yhat), 2)`, but the RMSE is only ~`r round(rmse(yhat, yy), 2)`, which is about `r round(sd(yhat) / rmse(yhat, yy), 0)` times less.
+We could then estimate the SD of these predictions and the model's RMSE (Figure 2). It turns out that the SD of $\hat{y}$ is ~`r round(sd(yhat), 2)`, but the RMSE is only ~`r round(rmse(yhat, yy), 2)`, which is about `r round(sd(yhat) / rmse(yhat, yy), 0)` times less.
 
 
 ```{r fig_2_plot_regr_ex, echo = FALSE, fig.width = 8, fig.height = 4.5, fig.align="center"}
