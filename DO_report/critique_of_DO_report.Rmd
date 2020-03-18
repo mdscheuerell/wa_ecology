@@ -67,10 +67,10 @@ $$
 and hence
 
 $$
-\begin{align}
+\begin{aligned}
 \text{Var}(\delta) &= \text{Var}(p_{ex}) + \text{Var}(p_{ref}) - 2 ~ \text{Cov}(p_{ex}, p_{ref}) \\
 &= \text{Var}(p_{ex}) + \text{Var}(p_{ref}) - 2 ~ \text{Cor}(p_{ex}, p_{ref}) \text{SD}(p_{ex}) \text{SD}(p_{ref})
-\end{align}
+\end{aligned}
 $$
 
 This is where Ecology gets their calculations wrong. In a forecasting context, the hope is that the predictions match the observations very closely and hence the errors are small. One measure of forecast skill is the root mean-squared error, which equals the standard deviation of the errors. More specifically,
@@ -83,26 +83,88 @@ Importantly, however, the $\text{RMSE}_{o,p}$ is not equal to the variance of th
 
 ### Re-analysis
 
-The Ecology report does not provide estimates of the variance in the model predictions, but we can generate approximations from the information provided and a simple assumption. For most of the DO models, $\text{RMSE}_{o,p} \approx 1$ (Table 7) and the correlation between the predicted and observed values is about 0.85 (Table 8). Recognizing that 
+The Ecology report does not provide estimates of the variance in the model predictions, but we can generate approximations from the information provided and a simple assumption. For most of the DO models, $\text{RMSE}_{ex} \approx 1$ (Table 7) and the correlation between the predicted and observed values is about 0.85 (Table 8). Recognizing that 
 
 $$
-\text{RMSE}_{o,p} = \sqrt{(1 - R^2)} \text{SD}(o),
+\text{RMSE}_{ex} = \sqrt{(1 - R^2)} \text{SD}(o),
 $$
 
 we can estimate the SD of the observations as 
 
 $$
-\text{SD}(o) = \frac{\text{RMSE}_{o,p}}{\sqrt{(1 - R^2)}} \approx \frac{1}{\sqrt{(1 - 0.85^2)}} \approx 1.9 \\
-\Downarrow \\
-\text{Var}(o) \approx 1.9^2 = 3.6
+\text{SD}(o) = \frac{\text{RMSE}_{ex}}{\sqrt{(1 - R^2)}} \approx \frac{1}{\sqrt{(1 - 0.85^2)}} \approx 1.9
 $$
 
+and hence the variance of the observations is
+
+$$
+\text{Var}(o) = \text{SD}(o)^2 \approx 1.9^2 = 3.61.
+$$
+
+Now we can estimate the variance of the predictions for the model with existing conditions as above, with
+
+$$
+\begin{aligned}
+\text{Var}(p_{ex}) &= \text{Var}(o) - \text{Var}(e) + 2 ~ \text{Cov}(p_{ex}, e) \\
+  &= \text{Var}(o) - \text{RMSE}_{ex}^2 + 2 ~ \text{Cov}(p_{ex}, e) \\
+  &\approx 3.6 - 1 + 2 ~ \text{Cov}(p_{ex}, e).
+\end{aligned}
+$$
+
+Absent information on the covariance between the predicted values and the model errors, we will assume that the model is well behaved and $\text{Cov}(p_{ex}, e) \approx 0$, such that
+
+$$
+\text{Var}(p_{ex}) \approx 3.6 - 1 + 2(0) = 2.6
+$$
+
+To the extent that $\text{Cov}(p_{ex}, e)$ is positive (negative), $text{Var}(p_{ex})$ will be larger (smaller) than this estimate.
+
+If we also assume, as Ecology did, that $\text{Var}(p_{ex}) = \text{Var}(p_{ref})$, then we can estimate the variance in the difference ($\delta$) between the predictions from the two models as above, such that
+
+$$
+\begin{aligned}
+\text{Var}(\delta) &= \text{Var}(p_{ex}) + \text{Var}(p_{ref}) - 2 ~ \text{Cor}(p_{ex}, p_{ref}) ~  \text{SD}(p_{ex}) ~  \text{SD}(p_{ref}) \\
+  &= \text{Var}(p_{ex}) + \text{Var}(p_{ex}) - 2 ~ \text{Cor}(p_{ex}, p_{ref}) ~  \text{SD}(p_{ex})  ~ \text{SD}(p_{ex}) \\
+  &= 2 ~ \text{Var}(p_{ex}) - 2 ~ \text{Cor}(p_{ex}, p_{ref}) ~ \text{Var}(p_{ex}) \\
+  &= 2 ~ \text{Var}(p_{ex}) [1 - \text{Cor}(p_{ex}, p_{ref})] \\
+  &= 2(2.6) [1 - \text{Cor}(p_{ex}, p_{ref})].
+\end{aligned}
+$$
+
+Thus, if $\text{Cor}(p_{ex}, p_{ref}) = 0$, then $\text{Var}(\delta) = 5.2 \Rightarrow \text{SD}(\delta) \approx 2.3$; conversely, as $\text{Cor}(p_{ex}, p_{ref}) \rightarrow 1 \Rightarrow \text{Var}(\delta) \rightarrow 0$.
 
 # An example
 
 Here is a simple example that shows how $\text{SD}(\hat{y})$ and $\text{RMSE}(\hat{y})$ are different. Consider a case where we had reason to believe that a variable $y$ was a function of another variable $x$. In effort to undercover the nature of their relationship, we collected 20 samples of both $y$ and $x$ (Figure 1).
 
 ```{r fig_1_data, echo = FALSE, fig.height=4.5, fig.width=4, fig.pos="placeHere", fig.align="center"}
+## set random seed for reprodicibility
+set.seed(123)
+
+## function to calculate RMSE
+rmse <- function(pre, obs) {
+  rmse <- sqrt(sum((pre - obs)^2)/length(pre))
+  return(rmse)
+}
+
+## sample size
+nn <- 20
+## some values for the predictor x
+xx <- sort(runif(nn, 0, 20))
+## intercept
+beta_0 <- 1
+## slope
+beta_1 <- 0.5
+## random errors (mean = 0, SD = 1)
+epsilon <- rnorm(nn)
+## observed data
+yy <- beta_0 + beta_1*xx + epsilon
+
+## fit a regression model
+mm <- lm(yy ~ xx)
+## get predicted values
+yhat <- predict(mm)
+
 par(mai = c(1.5,1,0.5,0.25), cex = 0.7)
 ## plot yhat and mean(yhat)
 plot(xx, yy, pch = 19, las = 1,
