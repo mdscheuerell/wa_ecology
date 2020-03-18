@@ -10,7 +10,7 @@ geometry: margin=1in
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, dev = "pdf")
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, dev = "pdf")
 
 if(!require("captioner")) {
   devtools::install_github("adletaw/captioner")
@@ -73,20 +73,20 @@ $$
 \end{aligned}
 $$
 
-This is where Ecology gets their calculations wrong. In a forecasting context, the hope is that the predictions match the observations very closely and hence the errors are small. One measure of forecast skill is the root mean-squared error, which equals the standard deviation of the errors. More specifically,
+This is where Ecology gets their calculations wrong. In a forecasting context, the hope is that the predictions match the observations very closely and hence the errors are small. One measure of forecast skill is the root mean-squared error (RMSE), which equals the standard deviation of the errors. More specifically,
 
 $$
 \text{RMSE}_{o,p} = \text{SD}(e) = \sqrt{\text{Var}(e)} = \sqrt{\frac{\sum (p_i - o_i)^2}{N}}.
 $$
 
-Importantly, however, the $\text{RMSE}_{o,p}$ is not equal to the variance of the predictions, $\text{Var}(p)$, the latter of which is required for the calculations of the error in differences.
+Importantly, however, the $\text{RMSE}_{o,p}$ is not equal to the variance of the predictions, $\text{Var}(p)$, which is required for the calculations of the error in differences.
 
 ### Re-analysis
 
 The Ecology report does not provide estimates of the variance in the model predictions, but we can generate approximations from the information provided and a simple assumption. For most of the DO models, $\text{RMSE}_{ex} \approx 1$ (Table 7) and the correlation between the predicted and observed values is about 0.85 (Table 8). Recognizing that 
 
 $$
-\text{RMSE}_{ex} = \sqrt{(1 - R^2)} \text{SD}(o),
+\text{RMSE}_{ex} = \sqrt{(1 - R^2)} ~ \text{SD}(o),
 $$
 
 we can estimate the SD of the observations as 
@@ -107,17 +107,17 @@ $$
 \begin{aligned}
 \text{Var}(p_{ex}) &= \text{Var}(o) - \text{Var}(e) + 2 ~ \text{Cov}(p_{ex}, e) \\
   &= \text{Var}(o) - \text{RMSE}_{ex}^2 + 2 ~ \text{Cov}(p_{ex}, e) \\
-  &\approx 3.6 - 1 + 2 ~ \text{Cov}(p_{ex}, e).
+  &\approx 3.6 - 1^2 + 2 ~ \text{Cov}(p_{ex}, e).
 \end{aligned}
 $$
 
 Absent information on the covariance between the predicted values and the model errors, we will assume that the model is well behaved and $\text{Cov}(p_{ex}, e) \approx 0$, such that
 
 $$
-\text{Var}(p_{ex}) \approx 3.6 - 1 + 2(0) = 2.6
+\text{Var}(p_{ex}) \approx 3.6 - 1^2 + 2(0) = 2.6
 $$
 
-To the extent that $\text{Cov}(p_{ex}, e)$ is positive (negative), $text{Var}(p_{ex})$ will be larger (smaller) than this estimate.
+To the extent that $\text{Cov}(p_{ex}, e)$ is positive (negative), $\text{Var}(p_{ex})$ will be larger (smaller) than this estimate.
 
 If we also assume, as Ecology did, that $\text{Var}(p_{ex}) = \text{Var}(p_{ref})$, then we can estimate the variance in the difference ($\delta$) between the predictions from the two models as above, such that
 
@@ -126,14 +126,29 @@ $$
 \text{Var}(\delta) &= \text{Var}(p_{ex}) + \text{Var}(p_{ref}) - 2 ~ \text{Cor}(p_{ex}, p_{ref}) ~  \text{SD}(p_{ex}) ~  \text{SD}(p_{ref}) \\
   &= \text{Var}(p_{ex}) + \text{Var}(p_{ex}) - 2 ~ \text{Cor}(p_{ex}, p_{ref}) ~  \text{SD}(p_{ex})  ~ \text{SD}(p_{ex}) \\
   &= 2 ~ \text{Var}(p_{ex}) - 2 ~ \text{Cor}(p_{ex}, p_{ref}) ~ \text{Var}(p_{ex}) \\
-  &= 2 ~ \text{Var}(p_{ex}) [1 - \text{Cor}(p_{ex}, p_{ref})] \\
-  &= 2(2.6) [1 - \text{Cor}(p_{ex}, p_{ref})].
+  &= 2 ~ \text{Var}(p_{ex}) \left( 1 - \text{Cor}(p_{ex}, p_{ref}) \right) \\
+  &= 2(2.6) \left( 1 - \text{Cor}(p_{ex}, p_{ref}) \right).
 \end{aligned}
 $$
 
 Thus, if $\text{Cor}(p_{ex}, p_{ref}) = 0$, then $\text{Var}(\delta) = 5.2 \Rightarrow \text{SD}(\delta) \approx 2.3$; conversely, as $\text{Cor}(p_{ex}, p_{ref}) \rightarrow 1 \Rightarrow \text{Var}(\delta) \rightarrow 0$.
 
-# An example
+Although we do not know $\text{Cor}(p_{ex}, p_{ref})$, we can estimate it from the calculations on p59. For example, if we assume that  $\text{Var}(\delta) = 0.041$ as for Ecology's model in 2014, then analogous to above we have
+
+$$
+\begin{aligned}
+\text{Var}(\delta) = \text{Var}(p_{ex}) + \text{Var}&(p_{ref}) - 2 ~ \text{Cor}(p_{ex}, p_{ref}) ~  \text{SD}(p_{ex}) ~  \text{SD}(p_{ref}) \\
+ &\Downarrow \\
+\text{Cor}(p_{ex}, p_{ref}) &= \frac{\left( \text{Var}(\delta) - \text{Var}(p_{ex}) - \text{Var}(p_{ref}) \right)} {- 2 ~ \text{SD}(p_{ex}) ~ \text{SD}(p_{ref})} \\[10pt]
+  &\approx \frac{\left( 0.041 - 1^2 - 1^2 \right)} {- 2(1)(1)} \\[10pt]
+  &\approx 0.98
+\end{aligned}
+$$
+
+This correlation is remarkably high, indicating that the two models produce nearly identical predictions of DO. Plugging this correlation coefficient into the equation for $\text{Var}(\delta)$ gives $\text{Var}(\delta) = 2(2.6) (1 - 0.98) = 0.104$, and hence $\text{SD}(\delta) \approx 0.32$. 
+
+
+## Example of SD versus RMSE
 
 Here is a simple example that shows how $\text{SD}(\hat{y})$ and $\text{RMSE}(\hat{y})$ are different. Consider a case where we had reason to believe that a variable $y$ was a function of another variable $x$. In effort to undercover the nature of their relationship, we collected 20 samples of both $y$ and $x$ (Figure 1).
 
