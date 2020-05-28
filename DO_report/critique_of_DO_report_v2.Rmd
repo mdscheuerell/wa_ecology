@@ -111,7 +111,7 @@ If the model is unbiased for the existing and reference conditions, then the mea
 \boldsymbol{\Sigma}_e = \boldsymbol{\Sigma}_r = \sigma^2 \mathbf{I}
 \end{equation}
 
-where $\mathbf{I}$ is an $[n \times n]$ identity matrix. Here, however, it seems more reasonable that 1) the prediction errors $\epsilon_{e,i}$ are not necessarily independent of one one another, 2) the variance of the prediction errors $\epsilon_{e,i}$ is not constant among the different sampling locations, and 3) $\boldsymbol{\Sigma}_e \neq \boldsymbol{\Sigma}_r$, such that 
+where $\mathbf{I}$ is an $[n \times n]$ identity matrix. Here, however, it seems more reasonable that 1) the prediction errors $\epsilon_{e,i}$ are not necessarily independent of one one another, 2) the variance of the prediction errors $\epsilon_{e,i}$ is not necessarily constant among the different sampling locations, and 3) $\boldsymbol{\Sigma}_e \neq \boldsymbol{\Sigma}_r$, such that 
 
 \begin{equation}
 \begin{gathered}
@@ -120,7 +120,7 @@ where $\mathbf{I}$ is an $[n \times n]$ identity matrix. Here, however, it seems
 \end{gathered}
 \end{equation}
 
-and $\mathbf{C}_e$ and $\mathbf{C}_r$ are $[n \times n]$ matrices of non-zero coefficients (where $n = N_e$ or $n = N_r$).
+and $\mathbf{C}_e$ and $\mathbf{C}_r$ are $[N_e \times N_e]$ and $[N_r \times N_r]$ matrices, respectively, of (potentially) non-zero coefficients for the existing and reference conditions.
 
 ## Differences in prediction errors
 
@@ -139,10 +139,22 @@ then
 with 
 
 \begin{equation}
+\boldsymbol{\mu}_{\delta} = \boldsymbol{\mu}_e - \boldsymbol{\mu}_r
+\end{equation}
+
+\begin{equation}
 \boldsymbol{\Sigma}_{\delta} = \boldsymbol{\Sigma}_e + \boldsymbol{\Sigma}_r
 \end{equation}
 
-However, because the $O_{r,i}$ are *unknown quantities*, we have no way of estimating $\boldsymbol{\epsilon}_r$, $\boldsymbol{\mu}_r$, or $\boldsymbol{\Sigma}_r$. Thus, one option is to assume that $\boldsymbol{\mu}_r = \boldsymbol{\mu}_e$ and $\boldsymbol{\Sigma}_r  = \boldsymbol{\Sigma}_e$, such that
+However, because the $O_{r,i}$ are *unknown quantities*, we have no way of estimating $\boldsymbol{\epsilon}_r$, $\boldsymbol{\mu}_r$, or $\boldsymbol{\Sigma}_r$ and hence no way of calculating $\boldsymbol{\delta}$, $\boldsymbol{\mu}_{\delta}$, or $\boldsymbol{\Sigma}_{\delta}$. One possible solution to this problem is to assume that $\boldsymbol{\mu}_r = \boldsymbol{\mu}_e$ and $\boldsymbol{\Sigma}_r  = \boldsymbol{\Sigma}_e$, such that
+
+\begin{equation}
+\begin{aligned}
+\boldsymbol{\mu}_{\delta} &= \boldsymbol{\mu}_e - \boldsymbol{\mu}_r \\
+   &= \boldsymbol{\mu}_e - \boldsymbol{\mu}_e \\
+   &= \mathbf{0}
+\end{aligned}
+\end{equation}
 
 \begin{equation}
 \begin{aligned}
@@ -152,7 +164,45 @@ However, because the $O_{r,i}$ are *unknown quantities*, we have no way of estim
 \end{aligned}
 \end{equation}
 
+We can decompose the covariance matrix $\boldsymbol{\Sigma}_e$ in terms of the standard deviations of each of the $\boldsymbol{\epsilon}_i$ $(\sigma_i)$ and the correlations among the $\boldsymbol{\epsilon}_i$ $(\rho_{i,j})$, such that
+
+\begin{equation}
+\boldsymbol{\Sigma}_e = 2 \mathbf{S} \mathbf{R} \mathbf{S}
+\end{equation}
+
+and
+
+\begin{equation}
+\mathbf{S} =
+\begin{bmatrix}
+\sigma_1 & 0 & \cdots & 0 \\
+0 & \sigma_2 & \ddots & \vdots \\
+\vdots & \ddots & \ddots & 0 \\
+0 & \cdots & 0 & \sigma_n \\
+\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+\mathbf{R} =
+\begin{bmatrix}
+1 & \rho_{1,2} & \cdots & \rho_{1,n} \\
+\rho_{1,2} & 1 & \ddots & \vdots \\
+\vdots & \ddots & \ddots & \rho_{n-1,n} \\
+\rho_{1,n} & \cdots & \rho_{n-1,n} & 1 \\
+\end{bmatrix}
+\end{equation}
+
+As we understand it, Ecology assumes that $\sigma_i = \sigma ~ \forall ~ i$ and that $\hat{\sigma} \approx 1$ (Table 7 in Ahmed et al. 2019).
+
 
 # Questions
 
 * Are the comparisons between observed and predicted [DO] based on the raw values or log-transformed [DO]?
+
+* What are the sample sizes $N_e$ and $N_r$?
+
+* Are the $N_e$ different $O_{e,i}$ data points novel in that they were not used in the model tuning process and instead held back for out-of-sample predictions $P_{e,i}$?
+
+* Where are the $N_e$ sampling locations?
+
+
