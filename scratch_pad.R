@@ -59,11 +59,22 @@ y4 <- y2 - y1
 var(y4)
 
 
-sgg <- (2*diag(2)) %*% matrix(c(1, 0.5, 0.5, 1), 2, 2) %*% (2*diag(2))
+sig3 <- 2*diag(2) %*% matrix(c(1, 0.5, 0.5, 1), 2, 2) %*% diag(2)
 
-y5 <- mvrnorm(nn, mu, sgg)
+y5 <- mvrnorm(nn, mu, sig3)
 
 var(y5)
 cor(y5)
 
+sig4 <- 2 * matrix(c(1, 0.5, 0.5, 1), 2, 2)
+
+y6 <- mvrnorm(nn, mu, sig4)
+
+var(y6)
+
+sig5 <- 2 * matrix(c(1, -0.5, -0.5, 1), 2, 2)
+
+y7 <- mvrnorm(nn, mu, sig5)
+
+var(y7)
 
