@@ -1,0 +1,158 @@
+---
+title: "Critique of model evaluation by the Washington Department of Ecology"
+subtitle: "Version 2.0"
+author: ""
+date: "27 May 2020"
+output:
+  pdf_document:
+    highlight: haddock
+fontsize: 11pt
+geometry: margin=1in
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, dev = "pdf")
+
+if(!require("captioner")) {
+  devtools::install_github("adletaw/captioner")
+  library("captioner")
+}
+
+## set default caption delimter
+fig_cap <- captioner(suffix = ".")
+## initialize figure number
+cnt <- 1
+```
+
+\begin{center}
+  \begin{Large}
+  \textbf{Gordon Holtgrieve} \\
+  \end{Large}
+  \text{School of Aquatic and Fishery Sciences} \\
+  \text{University of Washington} \\
+  \text{Seattle, WA} \\
+  \text{gholt@uw.edu}
+\end{center}
+
+\begin{center}
+  \begin{Large}
+  \textbf{Mark Scheuerell} \\
+  \end{Large}
+  \text{USGS Washington Cooperative Fish and Wildlife Research Unit} \\
+  \text{School of Aquatic and Fishery Sciences} \\
+  \text{University of Washington} \\
+  \text{Seattle, WA} \\
+  \text{scheuerl@uw.edu}
+\end{center}
+
+# Comparison of existing and reference scenarios
+
+The focus of the modeling analysis is a comparison of results obtained with two scenarios: a "reference" case that represents a system without anthropogenic inputs, and an "existing" case that represents contemporary conditions. Specifically, Ecology is interested in the difference between the modeled concentration of dissolved oxygen estimated via the two models. In addition, Ecology would like to know the estimated uncertainty in that difference.
+
+We thank Ecology for their clarifying statements in response to our initial critique. Those details that were unclear in the report are indeed important. This document now more clearly explains our understanding of the issues and how they might be addressed in a formal manner.
+
+# Model comparisons
+
+We begin by defining the following terms:
+
+* $O_{e,i}$ is the observed concentration of dissolved oxygen under existing conditions at location $i$
+
+* $P_{e,i}$ is the predicted concentration of dissolved oxygen under existing conditions at location $i$
+
+* $N_e$ is the number of locations with both $O_{e,i}$ and $P_{e,i}$ for the same $i$
+
+* $O_{r,i}$ is the observed concentration of dissolved oxygen under reference conditions at location $i$
+
+* $P_{r,i}$ is the predicted concentration of dissolved oxygen under reference conditions at location $i$
+
+* $N_r$ is the number of locations with both $O_{r,i}$ and $P_{r,i}$ for the same $i$
+
+We note here that the $O_{r,i}$ are *unknown quantities*. We further define the model error under each condition as the difference between the observed and predicted dissolved oxygen (DO) concentrations, such that
+
+\begin{equation}
+\begin{gathered}
+\epsilon_{e,i} = O_{e,i} - P_{e,i} \\
+\epsilon_{r,i} = O_{r,i} - P_{r,i}
+\end{gathered}
+\end{equation}
+
+We now define the vectors of the predictions errors to be
+
+\begin{equation}
+\boldsymbol{\epsilon}_e =
+\begin{bmatrix}
+\epsilon_{e,1} \\
+\epsilon_{e,2} \\
+\vdots \\
+\epsilon_{e,N_e}
+\end{bmatrix}
+~~\text{and}~~
+\boldsymbol{\epsilon}_r =
+\begin{bmatrix}
+\epsilon_{r,1} \\
+\epsilon_{r,2} \\
+\vdots \\
+\epsilon_{r,N_r}
+\end{bmatrix}
+\end{equation}
+
+The $\boldsymbol{\epsilon}$ are then assumed to come from multivariate normal distributions (MVN) with
+
+\begin{equation}
+\begin{gathered}
+\boldsymbol{\epsilon}_e \sim \text{MVN}(\boldsymbol{\mu}_e, \boldsymbol{\Sigma}_e) \\
+\boldsymbol{\epsilon}_r \sim \text{MVN}(\boldsymbol{\mu}_r, \boldsymbol{\Sigma}_r)
+\end{gathered}
+\end{equation}
+
+If the model is unbiased for the existing and reference conditions, then the mean vectors $\boldsymbol{\mu}_e$ and $\boldsymbol{\mu}_r$ will both be $\mathbf{0}$. In the most simple form, all of the errors are independent and identically distributed (IID), such that
+
+\begin{equation}
+\boldsymbol{\Sigma}_e = \boldsymbol{\Sigma}_r = \sigma^2 \mathbf{I}
+\end{equation}
+
+where $\mathbf{I}$ is an $[n \times n]$ identity matrix. Here, however, it seems more reasonable that 1) the prediction errors $\epsilon_{e,i}$ are not necessarily independent of one one another, 2) the variance of the prediction errors $\epsilon_{e,i}$ is not constant among the different sampling locations, and 3) $\boldsymbol{\Sigma}_e \neq \boldsymbol{\Sigma}_r$, such that 
+
+\begin{equation}
+\begin{gathered}
+\boldsymbol{\Sigma}_e = \sigma^2 \mathbf{C}_e \\
+\boldsymbol{\Sigma}_r = \sigma^2 \mathbf{C}_r
+\end{gathered}
+\end{equation}
+
+and $\mathbf{C}_e$ and $\mathbf{C}_r$ are $[n \times n]$ matrices of non-zero coefficients (where $n = N_e$ or $n = N_r$).
+
+## Differences in prediction errors
+
+If we are interested in the differences between the prediction errors in the existing $(\boldsymbol{\epsilon}_e)$ and reference conditions $(\boldsymbol{\epsilon}_r)$, such that 
+
+\begin{equation}
+\boldsymbol{\delta} = \boldsymbol{\epsilon}_e - \boldsymbol{\epsilon}_r
+\end{equation}
+
+then
+
+\begin{equation}
+\boldsymbol{\delta} \sim \text{MVN}(\boldsymbol{\mu}_{\delta}, \boldsymbol{\Sigma}_{\delta})
+\end{equation}
+
+with 
+
+\begin{equation}
+\boldsymbol{\Sigma}_{\delta} = \boldsymbol{\Sigma}_e + \boldsymbol{\Sigma}_r
+\end{equation}
+
+However, because the $O_{r,i}$ are *unknown quantities*, we have no way of estimating $\boldsymbol{\epsilon}_r$, $\boldsymbol{\mu}_r$, or $\boldsymbol{\Sigma}_r$. Thus, one option is to assume that $\boldsymbol{\mu}_r = \boldsymbol{\mu}_e$ and $\boldsymbol{\Sigma}_r  = \boldsymbol{\Sigma}_e$, such that
+
+\begin{equation}
+\begin{aligned}
+\boldsymbol{\Sigma}_{\delta} &= \boldsymbol{\Sigma}_e + \boldsymbol{\Sigma}_r \\
+   &= \boldsymbol{\Sigma}_e + \boldsymbol{\Sigma}_e \\
+   &= 2 \boldsymbol{\Sigma}_e
+\end{aligned}
+\end{equation}
+
+
+# Questions
+
+* Are the comparisons between observed and predicted [DO] based on the raw values or log-transformed [DO]?
