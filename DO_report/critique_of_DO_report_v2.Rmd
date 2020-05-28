@@ -2,7 +2,7 @@
 title: "Critique of model evaluation by the Washington Department of Ecology"
 subtitle: "Version 2.0"
 author: ""
-date: "27 May 2020"
+date: "28 May 2020"
 output:
   pdf_document:
     highlight: haddock
@@ -111,7 +111,7 @@ If the model is unbiased for the existing and reference conditions, then the mea
 \boldsymbol{\Sigma}_e = \boldsymbol{\Sigma}_r = \sigma^2 \mathbf{I}
 \end{equation}
 
-where $\mathbf{I}$ is an $[n \times n]$ identity matrix. Here, however, it seems more reasonable that 1) the prediction errors $\epsilon_{e,i}$ are not necessarily independent of one one another, 2) the variance of the prediction errors $\epsilon_{e,i}$ is not necessarily constant among the different sampling locations, and 3) $\boldsymbol{\Sigma}_e \neq \boldsymbol{\Sigma}_r$, such that 
+where $\mathbf{I}$ is an $[n \times n]$ identity matrix. Here, however, it seems more reasonable that 1) the prediction errors are not necessarily independent of one one another, 2) the variance of the prediction errors is not necessarily constant among the different sampling locations, and 3) $\boldsymbol{\Sigma}_e \neq \boldsymbol{\Sigma}_r$, such that 
 
 \begin{equation}
 \begin{gathered}
@@ -164,13 +164,13 @@ However, because the $O_{r,i}$ are *unknown quantities*, we have no way of estim
 \end{aligned}
 \end{equation}
 
-We can decompose the covariance matrix $\boldsymbol{\Sigma}_e$ in terms of the standard deviations of each of the $\boldsymbol{\epsilon}_i$ $(\sigma_i)$ and the correlations among the $\boldsymbol{\epsilon}_i$ $(\rho_{i,j})$, such that
+We can decompose the covariance matrix $\boldsymbol{\Sigma}_e$ in terms of the standard deviations of each of the $\epsilon_{e,i}$ $(\sigma_i)$ and the correlations among the $\epsilon_{e,i}$ $(\rho_{i,j})$, such that
 
 \begin{equation}
-\boldsymbol{\Sigma}_e = 2 \mathbf{S} \mathbf{R} \mathbf{S}
+\boldsymbol{\Sigma}_e = \mathbf{S} \mathbf{R} \mathbf{S}
 \end{equation}
 
-and
+with
 
 \begin{equation}
 \mathbf{S} =
@@ -192,8 +192,25 @@ and
 \end{bmatrix}
 \end{equation}
 
-As we understand it, Ecology assumes that $\sigma_i = \sigma ~ \forall ~ i$ and that $\hat{\sigma} \approx 1$ (Table 7 in Ahmed et al. 2019).
+As we understand it, Ecology assumes that $\sigma_i = \sigma ~ \forall ~ i$ and that $\hat{\sigma} \approx 1$ (Table 7 in Ahmed et al. 2019). If so, then
 
+\begin{equation}
+\mathbf{S} \approx
+\begin{bmatrix}
+1 & 0 & \cdots & 0 \\
+0 & 1 & \ddots & \vdots \\
+\vdots & \ddots & \ddots & 0 \\
+0 & \cdots & 0 & 1 \\
+\end{bmatrix}
+\end{equation}
+
+and hence
+
+\begin{equation}
+\boldsymbol{\Sigma}_{\delta} \approx 2 \mathbf{R} 
+\end{equation}
+
+At this point, however, we have no information on the $\rho_{i,j}$ within $\mathbf{R}$.
 
 # Questions
 
