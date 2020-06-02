@@ -2,7 +2,7 @@
 title: "Critique of model evaluation by the Washington Department of Ecology"
 subtitle: "Version 2.0"
 author: ""
-date: "28 May 2020"
+date: "2 June 2020"
 output:
   pdf_document:
     highlight: haddock
@@ -49,7 +49,7 @@ cnt <- 1
 
 The focus of the modeling analysis is a comparison of results obtained with two scenarios: a "reference" case that represents a system without anthropogenic inputs, and an "existing" case that represents contemporary conditions. Specifically, Ecology is interested in the difference between the modeled concentration of dissolved oxygen estimated via the two models. In addition, Ecology would like to know the estimated uncertainty in that difference.
 
-We thank Ecology for their clarifying statements in response to our initial critique. Those details that were unclear in the report are indeed important. This document now more clearly explains our understanding of the issues and how they might be addressed in a formal manner.
+We thank Ecology for their clarifying statements in response to our initial critique. Those details that were lacking or unclear in the report are indeed important. This document now more clearly explains our understanding of the issues and how they might be addressed in a formal manner.
 
 # Model comparisons
 
@@ -111,7 +111,15 @@ If the model is unbiased for the existing and reference conditions, then the mea
 \boldsymbol{\Sigma}_e = \boldsymbol{\Sigma}_r = \sigma^2 \mathbf{I}
 \end{equation}
 
-where $\mathbf{I}$ is an $[n \times n]$ identity matrix. Here, however, it seems more reasonable that 1) the prediction errors are not necessarily independent of one one another, 2) the variance of the prediction errors is not necessarily constant among the different sampling locations, and 3) $\boldsymbol{\Sigma}_e \neq \boldsymbol{\Sigma}_r$, such that 
+where $\mathbf{I}$ is an $[n \times n]$ identity matrix. Here, however, it seems more reasonable to assume the following:
+
+1) the prediction errors are not necessarily independent of one one another (i.e., locations near one another will be more similar than those farther away);
+
+2) the variance of the prediction errors is not necessarily constant among the different sampling locations (i.e., the predictive ability of the model varies spatially); and
+
+3) the variances and covariances are different in the existing and reference conditions (i.e., $\boldsymbol{\Sigma}_e \neq \boldsymbol{\Sigma}_r$.
+
+This implies that
 
 \begin{equation}
 \begin{gathered}
@@ -120,7 +128,7 @@ where $\mathbf{I}$ is an $[n \times n]$ identity matrix. Here, however, it seems
 \end{gathered}
 \end{equation}
 
-and $\mathbf{C}_e$ and $\mathbf{C}_r$ are $[N_e \times N_e]$ and $[N_r \times N_r]$ matrices, respectively, of (potentially) non-zero coefficients for the existing and reference conditions.
+where $\sigma^2$ is a scalar and $\mathbf{C}_e$ and $\mathbf{C}_r$ are $[N_e \times N_e]$ and $[N_r \times N_r]$ matrices, respectively, of (potentially) non-zero coefficients for the existing and reference conditions.
 
 ## Differences in prediction errors
 
